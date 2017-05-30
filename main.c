@@ -10,16 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <dirent.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <pwd.h>
-//#include <uuid/uuid.h>
-#include <grp.h>
+#include "ls.h"
 
 char *disp_chmod(struct stat file_stat)
 {
@@ -45,9 +36,9 @@ char *disp_chmod(struct stat file_stat)
 void disp_file_info(char *path)
 {
 	struct stat file_stat;
-	
+
 	if (stat(path, &file_stat) < 0)
-	   printf("ls: %s: %s\n", path, strerror(errno));	
+		printf("ls: %s: %s\n", path, strerror(errno));	
 
 
 	printf("%s ", disp_chmod(file_stat));
@@ -55,12 +46,12 @@ void disp_file_info(char *path)
 	printf("%s ", getpwuid(file_stat.st_uid)->pw_name);
 	printf("%s ", getgrgid(file_stat.st_gid)->gr_name);
 	printf("%d ", (int)file_stat.st_size);
-	printf("%s\n", path);
+	printf("%s\n", strrchr(path, '/') + 1);
 
 
-//	 Groupe: staff
-//	 Taille: 2142 octets
-//	 Date de derniere modification: Sep 17 23:42
+	//	 Groupe: staff
+	//	 Taille: 2142 octets
+	//	 Date de derniere modification: Sep 17 23:42
 
 
 }
@@ -69,19 +60,27 @@ void list_files(char *path)
 {
 	DIR *dirp;
 	struct dirent *dp;
+	char fn[FILENAME_MAX];
+	size_t len; 
+
+	len = strlen(path);
+	strcpy(fn, path);
+	fn[len++] = '/';	
+	fn[len] = '\0';	
+		
 
 	if ((dirp = opendir(path)) == NULL)
-	   printf("ls: %s: %s\n", path, strerror(errno));	
-	
+		printf("ls: %s: %s\n", path, strerror(errno));	
+
+	printf("\n===>%s \n", fn);
 	while ((dp = readdir(dirp)) != NULL)
 	{	
-//		printf("\n%s\n", dp->d_name);
-		disp_file_info(dp->d_name);
-//		if (S_ISDIR(file_stat.st_mode))
-//		{
-//			printf("\nEntering %s\n", dp->d_name);
-//			list_files(dp->d_name);		
-//		}
+		strncpy(fn + len, dp->d_name, FILENAME_MAX - len);
+		disp_file_info(fn);
+		if (dp->d_type & DT_DIR && dp->d_name[0] != '.')
+		{
+			list_files(fn);		
+		}
 	}
 
 	closedir(dirp);
@@ -99,15 +98,17 @@ int main(int argc, char **argv)
 
 
 /*
-	Get flags 
-	initialize ls_struct
-	for each folder 
-		save files infos in linked list (dirent + stat)
-		compute list (padding, sort, dates...)
-		display files + formatting 
-		free list 
+   Get flags specs
+   initialize ls_struct
+   for each folder 
+   		save files infos in linked list (dirent + stat)
+   		compute list (padding, sort, dates...)
+   		display files + formatting 
+		walk_recur(path, struct)
+  	 	free list 
 
-	free struct 
-*/
+   free struct 
+ */
+
 
 
