@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <pwd.h>
-#include <uuid/uuid.h>
+//#include <uuid/uuid.h>
 #include <grp.h>
 
 char *disp_chmod(struct stat file_stat)
@@ -50,12 +50,12 @@ void disp_file_info(char *path)
 	   printf("ls: %s: %s\n", path, strerror(errno));	
 
 
-	printf("Nom: %s\n", path);
-	printf("Type: %s\n", (S_ISDIR(file_stat.st_mode)) ? "Directory" : "File");
-	printf("%s\n", disp_chmod(file_stat));
-	printf("Nombre de liens: %hu\n", file_stat.st_nlink);
-	printf("Proprietaire: %s\n", getpwuid(file_stat.st_uid)->pw_name);
-	printf("Proprietaire: %s\n", getgrgid(file_stat.st_gid)->gr_name);
+	printf("%s ", disp_chmod(file_stat));
+	printf("%d ", (int)file_stat.st_nlink);
+	printf("%s ", getpwuid(file_stat.st_uid)->pw_name);
+	printf("%s ", getgrgid(file_stat.st_gid)->gr_name);
+	printf("%d ", (int)file_stat.st_size);
+	printf("%s\n", path);
 
 
 //	 Groupe: staff
@@ -75,8 +75,13 @@ void list_files(char *path)
 	
 	while ((dp = readdir(dirp)) != NULL)
 	{	
-		printf("\n%s\n", dp->d_name);
+//		printf("\n%s\n", dp->d_name);
 		disp_file_info(dp->d_name);
+//		if (S_ISDIR(file_stat.st_mode))
+//		{
+//			printf("\nEntering %s\n", dp->d_name);
+//			list_files(dp->d_name);		
+//		}
 	}
 
 	closedir(dirp);
@@ -93,6 +98,16 @@ int main(int argc, char **argv)
 }
 
 
+/*
+	Get flags 
+	initialize ls_struct
+	for each folder 
+		save files infos in linked list (dirent + stat)
+		compute list (padding, sort, dates...)
+		display files + formatting 
+		free list 
 
+	free struct 
+*/
 
 
