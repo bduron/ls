@@ -6,14 +6,14 @@
 #    By: bduron <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/07 13:02:54 by bduron            #+#    #+#              #
-#    Updated: 2017/03/09 17:23:17 by bduron           ###   ########.fr        #
+#    Updated: 2017/05/31 15:41:05 by bduron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FT_LS= ft_ls
 
 CC= gcc
-CFLAGS= -Wall -Wextra -Werror #-g #-fsanitize=address
+CFLAGS= -Wall -Wextra -Werror -g #-fsanitize=address
 LIBFT= -Llibft -lft 
 
 RM= rm -rf

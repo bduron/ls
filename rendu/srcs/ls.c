@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/05/29 20:49:54 by bduron           ###   ########.fr       */
+/*   Updated: 2017/05/31 16:57:22 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,58 @@ void env_init(t_env *e)
 
 }
 
+void del_target(void *content, size_t content_size)
+{
+	free(content);
+	content_size = 0;
+}
+
+void clean_target(t_env *e)
+{
+	t_list *tmp;
+	t_list *prev;
+
+	struct stat file_stat;
+
+	tmp = e->target;		
+	prev = tmp;
+	while (tmp)
+	{
+		if (stat((char *)tmp->content, &file_stat) < 0)
+		{	
+			printf("ls: %s: %s\n", (char *)tmp->content, strerror(errno));	
+			if (prev == tmp)
+			   e->target = e->target->next;	
+			if (tmp->next == NULL)
+				prev->next = NULL;
+			prev->next = tmp->next;
+			ft_lstdelone(&tmp, del_target);
+		}
+		prev = tmp;
+		tmp = tmp->next;	
+	}
+}
+
 void get_target(int argc, char **argv, int i, t_env *e)
 {
-	int j;
+	size_t ntarget;
 
-	e->target = (char **)malloc(sizeof(char *) * (argc - i + 1));
-	j = 0;
-	while (i < argc)
-		e->target[j++] = argv[i++];
-	e->target[j] = '\0';
+	ntarget = argc - i;
+	if (ntarget == 0)
+		e->target = ft_lstnew(".", 2);
+	else 
+	{
+		e->target = ft_lstnew(argv[i], sizeof(char) * strlen(argv[i]) + 1);
+		i++;
+		while (i < argc)
+		{	
+			ft_lstappend(&(e->target), 
+					ft_lstnew(argv[i], sizeof(char) * strlen(argv[i]) + 1));
+			i++;
+		}
+		clean_target(e);
+	}
+
 }
 
 int get_opt(int argc, char **argv, t_env *e)
@@ -67,7 +110,9 @@ int get_opt(int argc, char **argv, t_env *e)
 
 int main(int argc, char **argv)
 {
+	t_list *tmp;
 	t_env e;
+
 
 	env_init(&e);
 
@@ -78,12 +123,18 @@ int main(int argc, char **argv)
 	}
 
 	get_target(argc, argv, e.nopts, &e);		
-			
+
 
 	printf("opts: %d\n", e.opts); //
-	while (*e.target)	//
-		printf("%s\n", *e.target++); //
 
+	tmp = e.target;
+	while (tmp)	//
+	{
+		printf("%s\n", (char *)tmp->content);
+		tmp = tmp->next;
+	}
+
+	//free(e.target);
 
 	return (0);
 }

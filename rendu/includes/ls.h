@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/05/29 20:49:54 by bduron           ###   ########.fr       */
+/*   Updated: 2017/05/31 14:57:59 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <pwd.h>
-//# include <uuid/uuid.h>
+# include <uuid/uuid.h>
 # include <grp.h>
 # include <unistd.h>
+# include "libft.h"
 
 # define FT_NONE		(1 << 0) // -f
 # define FT_DEFAULT		(1 << 1) // nothing, lexicographycally sorted
@@ -42,7 +43,7 @@ typedef struct	s_env
 //	t_list		*files;
 	int			opts;
 	int			nopts;
-	char 		**target;
+	t_list 		*target;
 
 		
 
