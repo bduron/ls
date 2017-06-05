@@ -55,7 +55,6 @@ Makefile auteur   includes src
 ```
 
 ### option flags conflits 
--l, -R, -a, -r et -t.
 | ID    | Name | On   | Off |
 | :---: |:---: | :---:|:---:|
 | -l | List in long format |  |  |
