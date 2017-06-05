@@ -34,11 +34,10 @@ Makefile auteur   includes src
 1. Error messages :
 	- `ls: file: No such file or directory` 
 	- lexicographically sorted 
-		- 💡 *`sort argv[]`*
 
 2. Files arguments :
 	- no newline before this section 
-	- display duplicate files `auteur auteur`
+	- display duplicate files `ie. auteur auteur`
 	- lexicographically sorted   
 
 3. Arguments directories content : 
@@ -47,3 +46,12 @@ Makefile auteur   includes src
 	- title: `directory_name:\n`
 	- display duplicate directories  
 
+**Key takeaways:**
+	- 💡 `sort argv[]`
+
+
+### option flags conflits 
+
+
+
+### -R recursive subdirectories listing
