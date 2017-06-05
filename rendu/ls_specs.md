@@ -99,7 +99,38 @@ tests
 ```
 
 ### -R recursive subdirectories listing
+
+
 ### Links following
+
+When encountered during a recursive subdirectories listing (-R), by default, symlinks are ot followed
+
+`ls -lR`
+```
+total 0
+drwxr-xr-x  4 benjaminduron  staff  136 Jun  5 16:41 dirA
+drwxr-xr-x  5 benjaminduron  staff  170 Jun  5 16:50 dirB
+-rw-r--r--  1 benjaminduron  staff    0 Jun  5 16:43 rootFile01
+
+./dirA:
+total 8
+lrwxr-xr-x  1 benjaminduron  staff    7 Jun  5 16:41 link2dirB -> ../dirB
+drwxr-xr-x  3 benjaminduron  staff  102 Jun  5 16:34 subdirA
+
+./dirA/subdirA:
+total 0
+-rw-r--r--  1 benjaminduron  staff  0 May 31 20:39 fileA
+
+./dirB:
+total 0
+-rw-r--r--  1 benjaminduron  staff    0 May 31 20:39 hello00
+d---------  3 benjaminduron  staff  102 Jun  5 16:37 nopermdir
+----------  1 benjaminduron  staff    0 Jun  5 16:35 nopermfile
+
+./dirB/nopermdir:
+ls: nopermdir: Permission denied
+```
+	
 
 
 Testing ls :
