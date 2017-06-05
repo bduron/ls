@@ -49,7 +49,6 @@ Makefile auteur   includes src
 
 💡  **Key takeaways**
 ```
-+ separate directories from files 
 + lexicographically sort files
 + lexicographically sort directories
 + sort argv[] to display errors in the right order
@@ -176,33 +175,30 @@ Key data structures:
 - current directory entries list (ents)
 
 ```   
-**PARSE ARGV** 
-output if argv empty 
+PARSE ARGV 
+----------
+output if argv empty :
 	ents [NULL]
 	dirs ["."]
-output if argv !empty 
+output if argv !empty :
 	ents [files + dirs] sorted
 	dirs [dirs] sorted
+		in this case :
+			display ents
+			delete ents 	
 
-IF parsed ents 
-	display ents
-	delete ents 	
-
-**LS LOOP**
+LS LOOP
+-------
 while (dirs != NULL) 
+	pop currentdir from dirs 
+	get currentdir entries: ents [file, file, dir, file, ...]
+	if -R		
+		+ get nextdirs from currentdir: nextdirs [dir, dir, dir, ...]				
+		sort nextdirs
+		dirs = merge nextdirs + dirs 	
+	compute ents (sort, ...) 
+	display ents 
+	deletes ents 		
+	go to the next dir in dirs 
+	
 ```		
-
-- 
-
-
-
-
-generate a 
-
-
-
-
-
-
-
-
