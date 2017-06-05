@@ -168,7 +168,36 @@ ls -lratR
 
 
 
+Algorithm :
+----------
 
+Key data structures:
+- next directories list (dirs)
+- current directory entries list (ents)
+
+```   
+**PARSE ARGV** 
+output if argv empty 
+	ents [NULL]
+	dirs ["."]
+output if argv !empty 
+	ents [files + dirs] sorted
+	dirs [dirs] sorted
+
+IF parsed ents 
+	display ents
+	delete ents 	
+
+**LS LOOP**
+while (dirs != NULL) 
+```		
+
+- 
+
+
+
+
+generate a 
 
 
 
