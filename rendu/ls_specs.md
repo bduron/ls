@@ -47,7 +47,7 @@ Makefile auteur   includes src
 	- display duplicate directories  
 
 **Key takeaways:**
-	- 💡 `sort argv[]`
+- 💡 `sort argv[]`
 
 
 ### option flags conflits 
