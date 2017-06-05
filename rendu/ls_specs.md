@@ -14,9 +14,7 @@ Random notes :
 Default Behaviour : 
 -------------------
 ### ls display order :
-**Ex input:** `ls 3 1 2 libft . auteur main.c auteur .`
-
-**Output:**
+input: `ls 3 1 2 libft . auteur main.c auteur .`
 ```
 ls: 1: No such file or directory
 ls: 2: No such file or directory
