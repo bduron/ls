@@ -65,6 +65,7 @@ Makefile auteur   includes src
 | -r | Reverse lexicographicalorder or oldest entries first   | r |  |
 | -t | Sort by time modified (recent first), then sort lexicographically  | t |  |
 
+
 **Is there some kind of option flags precedence ?**
 
 `bash-3.2$ ls -1l` *-l takes precedence over -1 as it comes after*
