@@ -57,7 +57,8 @@ Makefile auteur   includes src
 ### option flags conflits 
 | ID    | Name | On   | Off |
 | :---: |----- | :---:|:---:|
-| -l | List in long format | l | (1) |
+| -1 | Force output to be one entry per line | 1 (one) | l (ell) |
+| -l | List in long format | l (ell) | 1 (one) |
 | -R | Recursively list subdirectories | R |  |
 | -a | Display directory entries beginning with a dot (.) | a |  |
 | -r | Reverse lexicographicalorder or oldest entries first   | r |  |
