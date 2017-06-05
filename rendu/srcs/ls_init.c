@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ls.c                                               :+:      :+:    :+:   */
+/*   ls_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/05/31 16:57:22 by bduron           ###   ########.fr       */
+/*   Updated: 2017/05/31 14:57:59 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ls.h"
 
-int main(int argc, char **argv)
+void env_init(t_env *e)
 {
-	t_env e;
+	e->opts = 0;
+//	e->files = NULL;
+	e->target = NULL;
 
-	env_init(&e);
-	e.nopts = get_opt(argc, argv, &e);
-	get_target(argc, argv, e.nopts, &e);		
-
-
-//	printf("opts: %d\n", e.opts); //
-	run_ls(&e);
-
-	//free(e.target);
-
-	return (0);
 }
 
+void del_target(void *content, size_t content_size)
+{
+	if (content != NULL)
+		free(content);
+	content_size = 0;
+}

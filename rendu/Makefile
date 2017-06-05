@@ -21,7 +21,11 @@ RM= rm -rf
 INC_DIR= includes/
 
 SRC= \
-ls.c
+ls.c \
+ls_init.c \
+ls_parsing.c \
+ls_main.c \
+ 
 
 OBJ= $(SRC:.c=.o)
 

@@ -50,5 +50,15 @@ typedef struct	s_env
 }				t_env;
 
 
+void env_init(t_env *e);
+void del_target(void *content, size_t content_size);
+void clean_target(t_env *e);
+void get_target(int argc, char **argv, int i, t_env *e);
+int get_opt(int argc, char **argv, t_env *e);
+void ls_usage(char opt);
+void run_ls(t_env *e);
+void list_files(char *path);
+void disp_file_info(char *path);
+char *disp_chmod(struct stat file_stat);
 
 #endif
