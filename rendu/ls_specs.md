@@ -48,8 +48,8 @@ Makefile auteur   includes src
 
 💡  **Key takeaways**
 ```
-- sort argv[]
-- separate directories from files 
++ sort argv[]
++ separate directories from files 
 ```
 
 ### option flags conflits 
