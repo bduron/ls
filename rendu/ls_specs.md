@@ -103,7 +103,7 @@ tests
 
 ### Links following
 
-When encountered during a recursive subdirectories listing (-R), by default, symlinks are ot followed
+When encountered during a recursive subdirectories listing (-R), by default, symlinks are not followed
 
 `ls -lR`
 ```
@@ -129,6 +129,25 @@ d---------  3 benjaminduron  staff  102 Jun  5 16:37 nopermdir
 
 ./dirB/nopermdir:
 ls: nopermdir: Permission denied
+```
+
+**Symlink as ls argument :**
+
+`ls link2dirB`
+```
+hello00    nopermdir  nopermfile
+```
+
+`ls -l link2dirB`
+```
+lrwxr-xr-x  1 benjaminduron  staff  7 Jun  5 16:41 link2dirB -> ../dirB
+```
+  
+💡  **Key takeaways**
+```
++ By default links are not followed during a -R recursion
++ If passed as a ls argument without options, ls display the linked directory content
++ If passed as a ls argument with -l option, ls display the link infos
 ```
 	
 
