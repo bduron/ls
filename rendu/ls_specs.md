@@ -13,7 +13,7 @@ Random notes :
 
 Default Behaviour : 
 -------------------
-**ls display order :** 
+### ls display order :
 1. Error messages :
 	 - `ls: file: No such file or directory` 
 
