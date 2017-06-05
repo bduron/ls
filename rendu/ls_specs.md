@@ -48,8 +48,10 @@ Makefile auteur   includes src
 
 💡  **Key takeaways**
 ```
-+ sort argv[]
 + separate directories from files 
++ lexicographically sort files
++ lexicographically sort directories
++ sort argv[] to display errors in the right order
 ```
 
 ### option flags conflits 
