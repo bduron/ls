@@ -105,14 +105,15 @@ Testing ls :
 ------------
 Here are some interesting commands to test 
 
-`ls /etc ; ls -l /etc`
-`ls -l /dev`
-`ls 5 1 4 2 3`
-`ls valid files + 5 1 4 2 3`
-`mkdir mydir; chmod 000 mydir; ls -l mydir`
-`ls -lat`
-`ls -lratR`
-
+```
+ls /etc ; ls -l /etc
+ls -l /dev
+ls 5 1 4 2 3
+ls valid files + 5 1 4 2 3
+mkdir mydir; chmod 000 mydir; ls -l mydir
+ls -lat
+ls -lratR
+```
 
 
 
