@@ -57,11 +57,11 @@ Makefile auteur   includes src
 ### option flags conflits 
 | ID    | Name | On   | Off |
 | :---: |----- | :---:|:---:|
-| -l | List in long format |  |  |
-| -R | Recursively list subdirectories |  |  |
-| -a | Display directory entries beginning with a dot (.) | |  |
-| -r | Reverse lexicographicalorder or oldest entries first   |  |  |
-| -t | Sort by time modified (recent first), then sort lexicographically  |  |  |
+| -l | List in long format | l | (1) |
+| -R | Recursively list subdirectories | R |  |
+| -a | Display directory entries beginning with a dot (.) | a |  |
+| -r | Reverse lexicographicalorder or oldest entries first   | r |  |
+| -t | Sort by time modified (recent first), then sort lexicographically  | t |  |
 
 
 
