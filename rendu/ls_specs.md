@@ -55,11 +55,14 @@ Makefile auteur   includes src
 ```
 
 ### option flags conflits 
-| Tables        | Are           | Cool  |
-| :-----------: |:-------------:| :----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+-l, -R, -a, -r et -t.
+| ID    | Name | On   | Off |
+| :---: |:---: | :---:|:---:|
+| -l | List in long format |  |  |
+| -R | Recursively list subdirectories |  |  |
+| -a | Display directory entries beginning with a dot (.) | |  |
+| -r | Reverse lexicographicalorder or oldest entries first   |  |  |
+| -t | Sort by time modified (recent first), then sort lexicographically  |  |  |
 
 
 
