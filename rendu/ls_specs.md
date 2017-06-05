@@ -14,5 +14,6 @@ Random notes :
 Default Behaviour : 
 -------------------
 LS display order : 
-	1. Error messages : > ls: file: No such file or directory 
+	1. Error messages : 
+		`ls: file: No such file or directory` 
 
