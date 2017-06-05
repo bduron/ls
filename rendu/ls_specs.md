@@ -3,11 +3,11 @@ ls specifications
 =================
 
 
-Random notes : 
+notes : 
 --------------
 - manage duplicate **'/'** in file path, user can add or omit it.
 	- ie.  `ls file1 file2/`  (avoid //file2) 
-	
+- ls without arguments = `ls .`	
 
 
 
@@ -59,3 +59,6 @@ Makefile auteur   includes src
 
 
 ### -R recursive subdirectories listing
+
+
+
