@@ -34,7 +34,7 @@ Makefile auteur   includes src
 1. Error messages :
 	- `ls: file: No such file or directory` 
 	- lexicographically sorted 
-		- *`TIPS: sort argv[]`*
+		- *`💡: sort argv[]`*
 
 2. Files arguments :
 	- no newline before this section 
