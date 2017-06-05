@@ -66,7 +66,7 @@ Makefile auteur   includes src
 
 **Is there some kind of option flags precedence ?**
 
-`bash-3.2$ ls -1l`
+`bash-3.2$ ls -1l` *-l takes precedence over -1 as it comes after*
 ```
 total 32
 -rw-r--r--  1 benjaminduron  staff  1643 Jun  1 16:43 Makefile
@@ -79,7 +79,7 @@ drwxr-xr-x  6 benjaminduron  staff   204 Jun  5 11:08 srcs
 drwxr-xr-x  4 benjaminduron  staff   136 May 31 20:39 tests
 ```
 
-`bash-3.2$ ls -l1`
+`bash-3.2$ ls -l1` *then -1 takes precedence over -l as it comes after*
 ```
 Makefile
 auteur
