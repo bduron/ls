@@ -8,7 +8,8 @@ notes :
 - manage duplicate **'/'** in file path, user can add or omit it.
 	- ie.  `ls file1 file2/`  (avoid //file2) 
 - ls without arguments = `ls .`	
-
+- empty string arg produces error:  `ls main.c fakefile ""`
+	- `ls: fts_open: No such file or directory` 
 
 
 Default Behaviour : 
@@ -97,6 +98,7 @@ tests
 ```
 
 ### -R recursive subdirectories listing
+### Links following
 
 
 
