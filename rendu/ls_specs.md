@@ -6,8 +6,8 @@ LS Specifications
 Random notes : 
 --------------
 - manage duplicate **'/'** in file path, user can add or omit it.
-	(ie. input = file file/ ? avoid //file) 
-
+	ie.  `ls file1 file2/`  (avoid //file2) 
+	
 
 
 
