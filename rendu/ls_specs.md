@@ -56,7 +56,7 @@ Makefile auteur   includes src
 
 ### option flags conflits 
 | ID    | Name | On   | Off |
-| :---: |:---: | :---:|:---:|
+| :---: |----- | :---:|:---:|
 | -l | List in long format |  |  |
 | -R | Recursively list subdirectories |  |  |
 | -a | Display directory entries beginning with a dot (.) | |  |
