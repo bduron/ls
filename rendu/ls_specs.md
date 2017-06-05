@@ -8,7 +8,7 @@ notes :
 - manage duplicate **'/'** in file path, user can add or omit it.
 	- ie.  `ls file1 file2/`  (avoid //file2) 
 - ls without arguments = `ls .`	
-- empty string arg produces error:  `ls main.c fakefile ""`
+- empty string arg `""` produces error:  `ls main.c fakefile ""`
 	- `ls: fts_open: No such file or directory` 
 
 
@@ -99,6 +99,29 @@ tests
 
 ### -R recursive subdirectories listing
 ### Links following
+
+
+Testing ls :
+------------
+Here are some interesting commands to test 
+
+`ls /etc ; ls -l /etc`
+`ls -l /dev`
+`ls 5 1 4 2 3`
+`ls valid files + 5 1 4 2 3`
+`mkdir mydir; chmod 000 mydir; ls -l mydir`
+`ls -lat`
+`ls -lratR`
+
+
+
+
+
+
+
+
+
+
 
 
 
