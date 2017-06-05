@@ -46,9 +46,11 @@ Makefile auteur   includes src
 	- title: `directory_name:\n`
 	- display duplicate directories  
 
-💡 **Key takeaways:**
+💡  **Key takeaways**
+```
 - sort argv[]
-
+- separate directories from files 
+```
 
 ### option flags conflits 
 
