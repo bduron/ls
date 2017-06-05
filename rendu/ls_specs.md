@@ -64,7 +64,37 @@ Makefile auteur   includes src
 | -r | Reverse lexicographicalorder or oldest entries first   | r |  |
 | -t | Sort by time modified (recent first), then sort lexicographically  | t |  |
 
+**Is there some kind of option flags precedence ?**
 
+`bash-3.2$ ls -1l`
+```
+total 32
+-rw-r--r--  1 benjaminduron  staff  1643 Jun  1 16:43 Makefile
+-rw-r--r--  1 benjaminduron  staff     7 May 31 20:39 auteur
+drwxr-xr-x  4 benjaminduron  staff   136 Jun  5 11:08 includes
+drwxr-xr-x  6 benjaminduron  staff   204 Jun  5 11:09 libft
+-rw-r--r--  1 benjaminduron  staff  1762 Jun  5 13:30 ls_specs.md
+-rw-r--r--  1 benjaminduron  staff  2996 Jun  1 12:22 main.c
+drwxr-xr-x  6 benjaminduron  staff   204 Jun  5 11:08 srcs
+drwxr-xr-x  4 benjaminduron  staff   136 May 31 20:39 tests
+```
+
+`bash-3.2$ ls -l1`
+```
+Makefile
+auteur
+includes
+libft
+ls_specs.md
+main.c
+srcs
+tests
+```
+
+💡  **Key takeaways**
+```
++ flags seem to be activated in the order they are encountered. So no precedence apply. 
+```
 
 ### -R recursive subdirectories listing
 
