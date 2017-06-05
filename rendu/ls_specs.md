@@ -15,5 +15,6 @@ Default Behaviour :
 -------------------
 ### ls display order :
 1. Error messages :
-	 - `ls: file: No such file or directory` 
+
+	`ls: file: No such file or directory` 
 
