@@ -26,39 +26,36 @@
 # include <unistd.h>
 # include "libft.h"
 
-# define FT_NONE		(1 << 0) // -f
-# define FT_DEFAULT		(1 << 1) // nothing, lexicographycally sorted
-# define FT_HIDDEN		(1 << 2) // -a
-# define FT_FOLLOWLNK	(1 << 3) // ? 
-# define FT_TSORT		(1 << 4) // -t
-# define FT_REVERSE		(1 << 5) // -r
-# define FT_RECURSIVE	(1 << 6) // -R
-# define FT_LIST		(1 << 7) // -l
+# define FT_LIST		(1 << 1) // -l
+# define FT_RECURSIVE	(1 << 2) // -R
+# define FT_DOT			(1 << 3) // -a
+# define FT_REVERSE		(1 << 4) // -r
+# define FT_TSORT		(1 << 5) // -t
 
 # define ERR_WRONGOPT	-1
 
-
-typedef struct	s_env
+typedef struct		s_data
 {
-//	t_list		*files;
-	int			opts;
-	int			nopts;
-	t_list 		*target;
-
-		
-
-}				t_env;
+	struct stat		stat;
+	struct dirent	*dirent;
+	char			*path;
+}				t_data;
 
 
-void env_init(t_env *e);
-void del_target(void *content, size_t content_size);
-void clean_target(t_env *e);
-void get_target(int argc, char **argv, int i, t_env *e);
-int get_opt(int argc, char **argv, t_env *e);
+int		parse_ls(int argc, char **argv, t_list *ents, t_list *dirs);
+int		get_opt(int argc, char **argv, int *opts);
+void	get_files(char **argv, int opts, t_list *ents, t_list *dirs);
+
+void printav(char **av);
+void ft_print_lst(t_list *head);
+
+//void env_init(t_env *e);
+//void del_target(void *content, size_t content_size);
+//void clean_target(t_env *e);
 void ls_usage(char opt);
-void run_ls(t_env *e);
-void list_files(char *path);
-void disp_file_info(char *path);
-char *disp_chmod(struct stat file_stat);
+//void run_ls(t_env *e);
+//void list_files(char *path);
+//void disp_file_info(char *path);
+//char *disp_chmod(struct stat file_stat);
 
 #endif

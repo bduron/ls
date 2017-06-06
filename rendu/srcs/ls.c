@@ -14,15 +14,18 @@
 
 int main(int argc, char **argv)
 {
-	t_env e;
+	int		opts;
+	t_list	*ents;
+	t_list	*dirs;
 
-	env_init(&e);
-	e.nopts = get_opt(argc, argv, &e);
-	get_target(argc, argv, e.nopts, &e);		
+	ents = NULL;
+	dirs = NULL;
+	opts = parse_ls(argc, argv, ents, dirs);
 
+		
 
-//	printf("opts: %d\n", e.opts); //
-	run_ls(&e);
+	printf("opts: %d\n", opts); //
+//	run_ls(&e);
 
 	//free(e.target);
 

@@ -12,17 +12,3 @@
 
 #include "ls.h"
 
-void env_init(t_env *e)
-{
-	e->opts = 0;
-//	e->files = NULL;
-	e->target = NULL;
-
-}
-
-void del_target(void *content, size_t content_size)
-{
-	if (content != NULL)
-		free(content);
-	content_size = 0;
-}
