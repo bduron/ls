@@ -6,11 +6,173 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/05/31 14:57:59 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/07 15:52:07 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ls.h"
+
+//while (dirs != NULL) 
+//	pop currentdir from dirs 
+//	get currentdir entries: ents [file, file, dir, file, ...]
+//	if -R		
+//		+ get nextdirs from currentdir: nextdirs [dir, dir, dir, ...]				
+//		sort nextdirs
+//		dirs = merge nextdirs + dirs 	
+//	compute ents (sort, ...) 
+//	display ents 
+//	deletes ents 		
+//	go to the next dir in dirs 
+
+
+void ls_display(t_list *ents)
+{
+	t_data *data;	
+	
+		
+	while (ents)
+	{
+		data = ents->content;
+		printf("%s\n", data->dirent->d_name);
+	
+		ents = ents->next;
+	}
+}
+
+char *construct_path(const char *parent, const char *path)
+{
+	char *tmp;
+	char *fullpath;
+
+	tmp = ft_strjoin(parent, "/");		
+	fullpath = ft_strjoin(tmp, path);
+	free(tmp);
+	return (fullpath);
+}
+
+void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs)
+{
+	DIR				*dirp;
+	struct dirent	*dp;
+	t_data			data;
+
+	if ((dirp = opendir(curdir->path)) == NULL)
+		exit(1);
+
+	while ((dp = readdir(dirp)) != NULL)
+	{
+		data.path = construct_path(curdir->path, dp->d_name);
+		stat(data.path, &data.stat); // protect
+		data.dirent = malloc(sizeof(*dp) + 1);
+		ft_memcpy(data.dirent, dp, sizeof(*dp));
+		
+		ft_lstadd(ents, ft_lstnew(&data, sizeof(data)));
+		if (S_ISDIR(data.stat.st_mode) && ft_strcmp(dp->d_name, ".") 
+				&& ft_strcmp(dp->d_name, ".."))
+			ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
+			// dirs list content should only be data.path ? 
+	}
+	//SORT NEXTDIR 
+
+	(void)closedir(dirp);
+}
+
+void run_ls(t_list **ents, t_list **dirs, int opts)
+{
+	t_data *data; 
+	t_list *nextdirs;
+	t_list **curdir; 
+
+	nextdirs = NULL;
+	curdir = dirs;
+	while (*curdir)
+	{	
+		data = (*curdir)->content;
+		//printf("Entering %s", data->path); // DEBUG
+		get_ents(data, ents, &nextdirs); // get ents + nextdirs + sort 	 
+		if (opts & FT_RECURSIVE)
+			ft_lstinsert(*curdir, nextdirs);
+
+		ls_display(*ents);
+
+		
+		//printf("\nEntries: "); // DEBUG
+		//ft_print_lst(*ents);
+		//printf("Dirs: "); // DEBUG
+		//ft_print_lst(nextdirs);
+		//printf("\n"); // DEBUG
+
+
+		*curdir = (*curdir)->next;	
+		*ents = NULL; // DELETE
+		nextdirs = NULL; // OK
+	}
+	//ft_lstdel(ents);
+
+
+
+	(void)opts;
+	(void)ents;
+	//char *path = ((t_data *)(*dirs)->content)->path;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //char *disp_chmod(struct stat file_stat)
 //{

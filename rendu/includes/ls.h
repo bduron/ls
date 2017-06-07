@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/05/31 14:57:59 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/07 13:24:06 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <pwd.h>
-//# include <uuid/uuid.h>
+# include <uuid/uuid.h>
 # include <grp.h>
 # include <unistd.h>
 # include "libft.h"
@@ -42,17 +42,24 @@ typedef struct		s_data
 }				t_data;
 
 
-int		parse_ls(int argc, char **argv, t_list *ents, t_list *dirs);
+int		parse_ls(int argc, char **argv, t_list **ents, t_list **dirs);
 int		get_opt(int argc, char **argv, int *opts);
-void	get_files(char **argv, int opts, t_list *ents, t_list *dirs);
+void	get_files(char **argv, int opts, t_list **ents, t_list **dirs);
 
+void run_ls(t_list **ents, t_list **dirs, int opts);
+
+int cmp_av(void const *a, void const *b);
+
+void ls_usage(char opt);
+
+
+/* Debbug functions */
 void printav(char **av);
 void ft_print_lst(t_list *head);
 
-//void env_init(t_env *e);
-//void del_target(void *content, size_t content_size);
-//void clean_target(t_env *e);
-void ls_usage(char opt);
+/* LIBFT */
+void ft_lstinsert(t_list *dst, t_list *src);
+
 //void run_ls(t_env *e);
 //void list_files(char *path);
 //void disp_file_info(char *path);

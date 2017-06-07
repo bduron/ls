@@ -1,37 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ls.c                                               :+:      :+:    :+:   */
+/*   cmp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/07 14:26:56 by bduron           ###   ########.fr       */
+/*   Created: 2017/06/07 17:20:38 by bduron            #+#    #+#             */
+/*   Updated: 2017/06/07 17:48:14 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ls.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+
+int min(int a, int b)
+{
+	return (a < b) ? a : b;
+}
+
+int max(int a, int b)
+{
+	return (a < b) ? b : a;
+}
+
+void print_cmp(int a, int b, int (*cmp)(), char *s)
+{
+	int res; 
+
+	res = cmp(a, b);	
+	printf("%s = %d\n", s, res);
+	return ;
+}
 
 int main(int argc, char **argv)
 {
-	int		opts;
-	t_list	*ents;
-	t_list	*dirs;
+	int a = atoi(argv[1]);	
+	int b = atoi(argv[2]);	
 
-	ents = NULL;
-	dirs = NULL;
-	opts = parse_ls(argc, argv, &ents, &dirs);
-	
-	//print_args();	
-
-	ents = NULL;
-	run_ls(&ents, &dirs, opts);
-		
-		
-
-//	printf("opts: %d\n", opts); //
-
+	print_cmp(a, b, min, "min");
+	print_cmp(a, b, max, "max");
 
 	return (0);
 }
-

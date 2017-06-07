@@ -6,14 +6,14 @@
 #    By: bduron <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/07 13:02:54 by bduron            #+#    #+#              #
-#    Updated: 2017/05/31 15:41:05 by bduron           ###   ########.fr        #
+#    Updated: 2017/06/07 14:26:16 by bduron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FT_LS= ft_ls
 
 CC= gcc
-CFLAGS= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS= -Wall -Wextra -Werror -g -fsanitize=address
 LIBFT= -Llibft -lft 
 
 RM= rm -rf
@@ -22,9 +22,11 @@ INC_DIR= includes/
 
 SRC= \
 ls.c \
-ls_init.c \
 ls_parsing.c \
+ls_cmp.c \
 ls_main.c \
+ls_libft.c \
+debbug.c
  
 
 OBJ= $(SRC:.c=.o)

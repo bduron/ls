@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ls.c                                               :+:      :+:    :+:   */
+/*   debbug.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/07 14:26:56 by bduron           ###   ########.fr       */
+/*   Created: 2017/06/07 09:21:04 by bduron            #+#    #+#             */
+/*   Updated: 2017/06/07 14:27:03 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ls.h"
 
-int main(int argc, char **argv)
+void printav(char **av)
 {
-	int		opts;
-	t_list	*ents;
-	t_list	*dirs;
-
-	ents = NULL;
-	dirs = NULL;
-	opts = parse_ls(argc, argv, &ents, &dirs);
-	
-	//print_args();	
-
-	ents = NULL;
-	run_ls(&ents, &dirs, opts);
-		
-		
-
-//	printf("opts: %d\n", opts); //
-
-
-	return (0);
+	while (*av)
+		printf("%s\n", *av++);
 }
 
+void ft_print_lst(t_list *head)
+{
+	while (head)
+	{
+		printf("%s ", ((t_data *)head->content)->path);
+		head = head->next;	
+	}		
+	printf("\n");
+}
