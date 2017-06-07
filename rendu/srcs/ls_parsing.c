@@ -80,7 +80,8 @@ void get_files(char **argv, int opts, t_list *ents, t_list *dirs)
 			argv++;
 			continue ;
 		}
-		data.path = ft_strdup(*argv);
+		data.path = ft_strdup(*argv); 
+		printf("Copied data: %s\n", data.path);// 
 		if (S_ISDIR(data.stat.st_mode))  
 			ft_lstadd(&dirs, ft_lstnew(&data, sizeof(data))); 		
 		else
@@ -135,7 +136,8 @@ void ft_print_lst(t_list *head)
 {
 	while (head)
 	{
-		ft_printf("%s ", (char *)((t_data *)(head->content)->data).path);
+		printf("up list\n");
+		printf("%s ", ((t_data *)head->content)->path);
 		head = head->next;	
 	}		
 	ft_printf("\n");
@@ -164,7 +166,7 @@ int parse_ls(int argc, char **argv, t_list *ents, t_list *dirs)
 		get_files(argv + nb_opts, opts, ents, dirs);		
 	
 	ft_print_lst(ents);
-	ft_print_lst(dirs);
+  	ft_print_lst(dirs);
 
 	(void)ents;
 	(void)dirs;
