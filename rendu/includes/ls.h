@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 12:39:57 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:19:19 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,13 @@ typedef struct		s_data
 int		parse_ls(int argc, char **argv, t_list **ents, t_list **dirs);
 int		get_opt(int argc, char **argv, int *opts);
 void	get_files(char **argv, int opts, t_list **ents, t_list **dirs);
+void	get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts);
 
 void run_ls(t_list **ents, t_list **dirs, int opts);
 
 int cmp_av(void const *a, void const *b);
+int ls_cmpmtime(t_list *a, t_list *b);
+int ls_cmpname(t_list *a, t_list *b);
 
 void ls_usage(char opt);
 
@@ -63,7 +66,6 @@ void ft_lstinsert(t_list *dst, t_list *src);
 void	ft_list_reverse(t_list **begin_list);
 void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)());
 
-int ls_cmpname(t_list *a, t_list *b);
 void ft_lstsort(t_list **headref, int (*lstcmp)());
 t_list *sortedmerge(t_list *a, t_list *b, int (*lstcmp)());
 void ft_lstsplit(t_list *source, t_list **front, t_list** back);

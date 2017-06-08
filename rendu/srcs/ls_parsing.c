@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 09:44:55 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 15:38:39 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void get_files(char **argv, int opts, t_list **ents, t_list **dirs)
 //	printav(argv);
 	while (*argv)
 	{	
-		if (stat(*argv, &data.stat) < 0)
+		if (lstat(*argv, &data.stat) < 0)
 		{
 			printf("ls: %s: %s\n", *argv, strerror(errno));	
 			argv++;

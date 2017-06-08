@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 12:47:47 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:20:40 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 		}
 
 		printf("%s\n", data->dirent->d_name);
+	//	printf("%ld\n", data->stat.st_mtime);
 	
 		ents = ents->next;
 	}
@@ -66,7 +67,7 @@ char *construct_path(const char *parent, const char *path)
 	return (fullpath);
 }
 
-void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs)
+void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
@@ -74,36 +75,34 @@ void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs)
 
 	if ((dirp = opendir(curdir->path)) == NULL)
 		exit(1);
-
 	while ((dp = readdir(dirp)) != NULL)
 	{
 		data.path = construct_path(curdir->path, dp->d_name);
-		stat(data.path, &data.stat); // protect
+		lstat(data.path, &data.stat); // protect
 		data.dirent = malloc(sizeof(*dp) + 1);
 		ft_memcpy(data.dirent, dp, sizeof(*dp));
 		
 		ft_lstadd(ents, ft_lstnew(&data, sizeof(data)));
+		if ((S_ISDIR(data.stat.st_mode) && !(opts & FT_DOT) 
+				&& dp->d_name[0] == '.'))
+			continue ;
 		if (S_ISDIR(data.stat.st_mode) && ft_strcmp(dp->d_name, ".") 
 				&& ft_strcmp(dp->d_name, ".."))
-//			if ((opts & FT_DOT))
-//				ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
-			// dirs list content should only be data.path ? 
+			ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
 	}
 	ft_lstsort(nextdirs, ls_cmpname);
-	//SORT NEXTDIR 
-
 	(void)closedir(dirp);
 }
 
 // CMP function
 
-void ls_filter(t_list **dirs, int opts)
-{
-	if (!(opts & FT_DOT))	
-		ft_list_remove_if(dirs, void *data_ref, int (*cmp)())
-
-
-}
+//void ls_filter(t_list **dirs, int opts)
+//{
+//	if (!(opts & FT_DOT))	
+//		ft_list_remove_if(dirs, void *data_ref, int (*cmp)())
+//
+//
+//}
 
 void ls_sort(t_list **ents, int opts)
 {
@@ -111,8 +110,8 @@ void ls_sort(t_list **ents, int opts)
 
 	sort_func = &ls_cmpname;
 	
-//	if (opts & FT_TSORT)	
-//		sort_func = &ls_cmptime; // CODE cmptime
+	if (opts & FT_TSORT)	
+		sort_func = &ls_cmpmtime; // CODE cmptime
 
 	ft_lstsort(ents, sort_func);
 
@@ -132,7 +131,7 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 	{	
 		data = (*curdir)->content;
 		//printf("Entering %s\n", data->path); // DEBUG
-		get_ents(data, ents, &nextdirs); // get ents + nextdirs + sort 	 
+		get_ents(data, ents, &nextdirs, opts); // get ents + nextdirs + sort 	 
 		
 
 		if (opts & FT_RECURSIVE)
