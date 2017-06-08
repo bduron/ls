@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <pwd.h>
-# include <uuid/uuid.h>
+//# include <uuid/uuid.h>
 # include <grp.h>
 # include <unistd.h>
 # include "libft.h"
@@ -59,6 +59,11 @@ void ft_print_lst(t_list *head);
 
 /* LIBFT */
 void ft_lstinsert(t_list *dst, t_list *src);
+
+int ls_cmpname(t_list *a, t_list *b);
+void ft_lstsort(t_list **headref, int (*lstcmp)());
+t_list *sortedmerge(t_list *a, t_list *b, int (*lstcmp)());
+void ft_lstsplit(t_list *source, t_list **front, t_list** back);
 
 //void run_ls(t_env *e);
 //void list_files(char *path);

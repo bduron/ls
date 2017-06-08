@@ -25,14 +25,31 @@
 //	go to the next dir in dirs 
 
 
-void ls_display(t_list *ents)
+void ls_display(t_list *ents, char *dirpath, int opts)
 {
 	t_data *data;	
-	
+	// filter
+		// .dot dirs 
+	// sort
+		// classic
+		// time
+		// reverse
+	// display	
+		// classic 
+		// list
 		
+	ft_lstsort(&ents, ls_cmpname);
+	printf("\n%s:\n", dirpath);
 	while (ents)
 	{
 		data = ents->content;
+		
+		if (*(data->dirent->d_name) == '.' && !(opts & FT_DOT))
+		{
+			ents = ents->next;
+			continue;
+		}
+
 		printf("%s\n", data->dirent->d_name);
 	
 		ents = ents->next;
@@ -72,9 +89,20 @@ void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs)
 			ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
 			// dirs list content should only be data.path ? 
 	}
+	ft_lstsort(nextdirs, ls_cmpname);
 	//SORT NEXTDIR 
 
 	(void)closedir(dirp);
+}
+
+void ls_sort(t_list **ents, int opts)
+{
+	int (*sort_fnc)();
+
+	sort_fnc = &ls_cmpname;
+
+
+
 }
 
 void run_ls(t_list **ents, t_list **dirs, int opts)
@@ -88,12 +116,12 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 	while (*curdir)
 	{	
 		data = (*curdir)->content;
-		//printf("Entering %s", data->path); // DEBUG
+		//printf("Entering %s\n", data->path); // DEBUG
 		get_ents(data, ents, &nextdirs); // get ents + nextdirs + sort 	 
 		if (opts & FT_RECURSIVE)
 			ft_lstinsert(*curdir, nextdirs);
 
-		ls_display(*ents);
+		ls_display(*ents, data->path, opts);
 
 		
 		//printf("\nEntries: "); // DEBUG

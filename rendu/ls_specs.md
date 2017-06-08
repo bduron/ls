@@ -10,6 +10,8 @@ notes :
 - ls without arguments = `ls .`	
 - empty string arg `""` produces error:  `ls main.c fakefile ""`
 	- `ls: fts_open: No such file or directory` 
+- default ls sort : Alphabetically (but case insensitive ?)
+
 
 
 Default Behaviour : 

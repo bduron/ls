@@ -13,7 +13,7 @@
 FT_LS= ft_ls
 
 CC= gcc
-CFLAGS= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS= -Wall -Wextra -Werror -g #-fsanitize=address
 LIBFT= -Llibft -lft 
 
 RM= rm -rf
