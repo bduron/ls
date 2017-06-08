@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 16:19:19 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 17:48:18 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define FT_DOT			(1 << 3) // -a
 # define FT_REVERSE		(1 << 4) // -r
 # define FT_TSORT		(1 << 5) // -t
+
 # define FT_DIRNAME		(1 << 6) // display dir name when argv_files > 2 
 
 # define ERR_WRONGOPT	-1

@@ -6,14 +6,13 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:16:55 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 14:28:40 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 16:25:09 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* functions to add to le libft */
 
 #include "ls.h"
-
 
 
 void ft_lstinsert(t_list *dst, t_list *src)

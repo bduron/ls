@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 16:20:40 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 18:16:47 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,11 @@
 
 void ls_display(t_list *ents, char *dirpath, int opts)
 {
-	t_data *data;	
-	// filter
-		// .dot dirs 
-	// sort
-		// classic
-		// time
-		// reverse
-	// display	
-		// classic 
-		// list
+	t_data *data;
+	static int		firstdir;	
 		
-	printf("\n%s:\n", dirpath);
+	if (firstdir++ || opts & FT_DIRNAME)
+  		printf("%s:\n", dirpath);
 	while (ents)
 	{
 		data = ents->content;
@@ -54,6 +47,7 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 	
 		ents = ents->next;
 	}
+	printf("\n");
 }
 
 char *construct_path(const char *parent, const char *path)
@@ -94,15 +88,6 @@ void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 	(void)closedir(dirp);
 }
 
-// CMP function
-
-//void ls_filter(t_list **dirs, int opts)
-//{
-//	if (!(opts & FT_DOT))	
-//		ft_list_remove_if(dirs, void *data_ref, int (*cmp)())
-//
-//
-//}
 
 void ls_sort(t_list **ents, int opts)
 {
@@ -132,7 +117,8 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 		data = (*curdir)->content;
 		//printf("Entering %s\n", data->path); // DEBUG
 		get_ents(data, ents, &nextdirs, opts); // get ents + nextdirs + sort 	 
-		
+	//	if (opts & FT_REVERSE)
+	//		ft_list_reverse(&nextdirs);		
 
 		if (opts & FT_RECURSIVE)
 			ft_lstinsert(*curdir, nextdirs);
