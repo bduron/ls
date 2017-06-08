@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/07 15:52:07 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:47:47 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 		// classic 
 		// list
 		
-	ft_lstsort(&ents, ls_cmpname);
 	printf("\n%s:\n", dirpath);
 	while (ents)
 	{
@@ -86,7 +85,8 @@ void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs)
 		ft_lstadd(ents, ft_lstnew(&data, sizeof(data)));
 		if (S_ISDIR(data.stat.st_mode) && ft_strcmp(dp->d_name, ".") 
 				&& ft_strcmp(dp->d_name, ".."))
-			ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
+//			if ((opts & FT_DOT))
+//				ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
 			// dirs list content should only be data.path ? 
 	}
 	ft_lstsort(nextdirs, ls_cmpname);
@@ -95,14 +95,29 @@ void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs)
 	(void)closedir(dirp);
 }
 
+// CMP function
+
+void ls_filter(t_list **dirs, int opts)
+{
+	if (!(opts & FT_DOT))	
+		ft_list_remove_if(dirs, void *data_ref, int (*cmp)())
+
+
+}
+
 void ls_sort(t_list **ents, int opts)
 {
-	int (*sort_fnc)();
+	int (*sort_func)();
 
-	sort_fnc = &ls_cmpname;
+	sort_func = &ls_cmpname;
+	
+//	if (opts & FT_TSORT)	
+//		sort_func = &ls_cmptime; // CODE cmptime
 
+	ft_lstsort(ents, sort_func);
 
-
+	if (opts & FT_REVERSE)
+		ft_list_reverse(ents);
 }
 
 void run_ls(t_list **ents, t_list **dirs, int opts)
@@ -118,9 +133,12 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 		data = (*curdir)->content;
 		//printf("Entering %s\n", data->path); // DEBUG
 		get_ents(data, ents, &nextdirs); // get ents + nextdirs + sort 	 
+		
+
 		if (opts & FT_RECURSIVE)
 			ft_lstinsert(*curdir, nextdirs);
 
+		ls_sort(ents, opts);
 		ls_display(*ents, data->path, opts);
 
 		
@@ -143,38 +161,6 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 	(void)ents;
 	//char *path = ((t_data *)(*dirs)->content)->path;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -244,53 +230,5 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 //	//	 Taille: 2142 octets
 //	//	 Date de derniere modification: Sep 17 23:42
 //
-//
-//}
-
-//void list_files(char *path)
-//{
-//	DIR *dirp;
-//	struct dirent *dp;
-//	char fn[FILENAME_MAX];
-//	size_t len; 
-//
-//	len = strlen(path);
-//	strcpy(fn, path);
-//	fn[len++] = '/';	
-//	fn[len] = '\0';	
-//		
-//
-//	if ((dirp = opendir(path)) == NULL)
-//		printf("ls: %s: %s\n", path, strerror(errno));	
-//
-//	printf("\n===>%s \n", fn);
-//	while ((dp = readdir(dirp)) != NULL)
-//	{	
-//		strncpy(fn + len, dp->d_name, FILENAME_MAX - len);
-//		disp_file_info(fn);
-//		if (dp->d_type & DT_DIR && dp->d_name[0] != '.')
-//		{
-//			list_files(fn);		
-//		}
-//	}
-//	closedir(dirp);
-//}
-
-//void run_ls(t_env *e)
-//{
-//	t_list *tmp;
-//	struct stat file_stat;
-//
-//	tmp = e->target;
-//	while (tmp)	//
-//	{
-//		if (stat((char *)tmp->content, &file_stat) < 0)
-//			printf("ls: %s: %s\n", (char *)tmp->content, strerror(errno));	
-//		if (tmp->content != NULL && S_ISDIR(file_stat.st_mode))
-//			list_files((char *)tmp->content);
-//		else 
-//			disp_file_info((char *)tmp->content);
-//		tmp = tmp->next;
-//	}
 //
 //}

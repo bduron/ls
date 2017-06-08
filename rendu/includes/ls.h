@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/07 13:24:06 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:39:57 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define FT_DOT			(1 << 3) // -a
 # define FT_REVERSE		(1 << 4) // -r
 # define FT_TSORT		(1 << 5) // -t
+# define FT_DIRNAME		(1 << 6) // display dir name when argv_files > 2 
 
 # define ERR_WRONGOPT	-1
 
@@ -59,14 +60,14 @@ void ft_print_lst(t_list *head);
 
 /* LIBFT */
 void ft_lstinsert(t_list *dst, t_list *src);
+void	ft_list_reverse(t_list **begin_list);
+void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)());
 
 int ls_cmpname(t_list *a, t_list *b);
 void ft_lstsort(t_list **headref, int (*lstcmp)());
 t_list *sortedmerge(t_list *a, t_list *b, int (*lstcmp)());
 void ft_lstsplit(t_list *source, t_list **front, t_list** back);
 
-//void run_ls(t_env *e);
-//void list_files(char *path);
 //void disp_file_info(char *path);
 //char *disp_chmod(struct stat file_stat);
 

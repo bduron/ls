@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/07 13:47:11 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 09:44:55 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ int parse_ls(int argc, char **argv, t_list **ents, t_list **dirs)
 	nb_opts = get_opt(argc, argv, &opts);
 	qsort(argv + nb_opts, argc - nb_opts, sizeof(char *), cmp_av); //FT_QSORT
 				
+	if (argc - nb_opts > 1)
+		opts |= FT_DIRNAME;
+
 	if (argc - nb_opts == 0)
 		get_files((char *[2]){".", NULL}, opts, ents, dirs);		
 	else 

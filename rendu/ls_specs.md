@@ -10,7 +10,10 @@ notes :
 - ls without arguments = `ls .`	
 - empty string arg `""` produces error:  `ls main.c fakefile ""`
 	- `ls: fts_open: No such file or directory` 
-- default ls sort : Alphabetically (but case insensitive ?)
+- default ls sort : Alphabetically 
+	- Case sensitiveness depends on the locale (set_locale)
+	- case sensitive on my Mac OS
+	- case insensitive on my linux 
 
 
 

@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:16:55 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/07 17:48:06 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/08 12:39:18 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,56 @@ void ft_lstinsert(t_list *dst, t_list *src)
 	src_end->next = tmp;	
 }
 
+void	ft_list_reverse(t_list **begin_list)
+{
+	t_list *current;
+	t_list *prev;
+	t_list *next;
+
+	current = *begin_list;
+	next = 0;
+	prev = 0;
+	while (current)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+	*begin_list = prev;
+}
+
+void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)())
+{
+	t_list *tmp;
+	t_list *prev;
+
+	prev = 0;
+	tmp = *begin_list;
+	while (tmp)
+	{
+		if ((*cmp)(tmp->data, data_ref) == 0)
+		{
+			if (prev == 0)
+				*begin_list = tmp->next;
+			else
+				prev->next = tmp->next;
+			free(tmp);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+}
+
 //void ft_qsort(void *base, size_t nel, size_t width, int (*compar)(const void *, const void *))
 
 //////////////////////////////////// MERGE SORT ///////////////////////////////////////////////
 
-int ls_cmpname(t_list *a, t_list *b);
 void ft_lstsort(t_list **headref, int (*lstcmp)());
 t_list *sortedmerge(t_list *a, t_list *b, int (*lstcmp)());
 void ft_lstsplit(t_list *source, t_list **front, t_list** back);
 
 
-int ls_cmpname(t_list *a, t_list *b)
-{
-	char *name_a;
-	char *name_b;
-
-	name_a = ((t_data *)a->content)->dirent->d_name;
-	name_b = ((t_data *)b->content)->dirent->d_name;
-
-	return (ft_strcmp(name_a, name_b));
-}
 
 void ft_lstsort(t_list **headref, int (*lstcmp)())
 {
