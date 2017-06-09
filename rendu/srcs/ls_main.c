@@ -25,30 +25,6 @@
 //	go to the next dir in dirs 
 
 
-void ls_display(t_list *ents, char *dirpath, int opts)
-{
-	t_data *data;
-	static int		firstdir;	
-		
-	if (firstdir++ || opts & FT_DIRNAME)
-  		printf("%s:\n", dirpath);
-	while (ents)
-	{
-		data = ents->content;
-		
-		if (*(data->dirent->d_name) == '.' && !(opts & FT_DOT))
-		{
-			ents = ents->next;
-			continue;
-		}
-
-		printf("%s\n", data->dirent->d_name);
-	//	printf("%ld\n", data->stat.st_mtime);
-	
-		ents = ents->next;
-	}
-	printf("\n");
-}
 
 char *construct_path(const char *parent, const char *path)
 {

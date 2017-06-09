@@ -15,6 +15,22 @@
 #include "ls.h"
 
 
+int ft_nblen(long n, int base)
+{
+    int len;
+
+    if (base < 2)
+        return (-1);
+
+    len = (n < 0 && base == 10) ? 2 : 1;
+    while (n /= base)
+        len++;
+    
+    return (len);
+}
+
+/////////// LIST ///////////
+
 void ft_lstinsert(t_list *dst, t_list *src)
 {
 	t_list *tmp;

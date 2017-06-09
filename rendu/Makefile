@@ -25,6 +25,7 @@ ls.c \
 ls_parsing.c \
 ls_cmp.c \
 ls_main.c \
+ls_display.c \
 ls_libft.c \
 debbug.c
  

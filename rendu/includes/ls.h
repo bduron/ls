@@ -43,6 +43,11 @@ typedef struct		s_data
 	char			*path;
 }				t_data;
 
+typedef struct		s_fmt
+{
+	long			total;
+	int				pad;
+}				t_fmt;
 
 int		parse_ls(int argc, char **argv, t_list **ents, t_list **dirs);
 int		get_opt(int argc, char **argv, int *opts);
@@ -50,6 +55,12 @@ void	get_files(char **argv, int opts, t_list **ents, t_list **dirs);
 void	get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts);
 
 void run_ls(t_list **ents, t_list **dirs, int opts);
+
+
+void ls_display(t_list *ents, char *dirpath, int opts);
+void ls_display_list(t_data *data);
+char *disp_chmod(struct stat file_stat);
+void init_fmt(t_fmt *fmt, t_list *ents);
 
 int cmp_av(void const *a, void const *b);
 int ls_cmpmtime(t_list *a, t_list *b);
@@ -63,6 +74,8 @@ void printav(char **av);
 void ft_print_lst(t_list *head);
 
 /* LIBFT */
+int ft_nblen(long n, int base);
+
 void ft_lstinsert(t_list *dst, t_list *src);
 void	ft_list_reverse(t_list **begin_list);
 void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)());
