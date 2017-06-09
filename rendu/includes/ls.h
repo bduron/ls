@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 17:48:18 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/09 17:00:17 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 //# include <uuid/uuid.h>
 # include <grp.h>
 # include <unistd.h>
+#include <time.h>
+#include <unistd.h>
 # include "libft.h"
 
 # define FT_LIST		(1 << 1) // -l
@@ -46,19 +48,23 @@ typedef struct		s_data
 typedef struct		s_fmt
 {
 	long			total;
-	int				pad;
+	int				size;
+	int				link;
+	int				uid;
+	int				gid;
 }				t_fmt;
 
 int		parse_ls(int argc, char **argv, t_list **ents, t_list **dirs);
 int		get_opt(int argc, char **argv, int *opts);
 void	get_files(char **argv, int opts, t_list **ents, t_list **dirs);
-void	get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts);
+int		get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts);
 
 void run_ls(t_list **ents, t_list **dirs, int opts);
+void ls_sort(t_list **ents, int opts);
 
 
 void ls_display(t_list *ents, char *dirpath, int opts);
-void ls_display_list(t_data *data);
+void ls_display_list(t_data *data, t_fmt fmt);
 char *disp_chmod(struct stat file_stat);
 void init_fmt(t_fmt *fmt, t_list *ents);
 

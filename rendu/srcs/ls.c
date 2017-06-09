@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 09:33:15 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/09 17:04:46 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ int main(int argc, char **argv)
 	opts = parse_ls(argc, argv, &ents, &dirs);
 	
 	//print_args();	
+
+	/// LS FLUSH ///
+	if (ents)
+	{
+		ls_sort(&ents, opts);
+		ls_display(ents, "path", opts);
+	}
 
 	ents = NULL;
 	run_ls(&ents, &dirs, opts);

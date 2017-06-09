@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/08 18:16:47 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/09 16:58:56 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,18 @@ char *construct_path(const char *parent, const char *path)
 	return (fullpath);
 }
 
-void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
+int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
 	t_data			data;
 
 	if ((dirp = opendir(curdir->path)) == NULL)
-		exit(1);
+	{
+		printf("%s:\nls: %s: %s\n", curdir->path, ft_strrchr(curdir->path, '/') + 1, strerror(errno));	
+		return (1);
+	}
+
 	while ((dp = readdir(dirp)) != NULL)
 	{
 		data.path = construct_path(curdir->path, dp->d_name);
@@ -62,6 +66,7 @@ void get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 	}
 	ft_lstsort(nextdirs, ls_cmpname);
 	(void)closedir(dirp);
+	return (0);
 }
 
 
@@ -92,23 +97,19 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 	{	
 		data = (*curdir)->content;
 		//printf("Entering %s\n", data->path); // DEBUG
-		get_ents(data, ents, &nextdirs, opts); // get ents + nextdirs + sort 	 
-	//	if (opts & FT_REVERSE)
-	//		ft_list_reverse(&nextdirs);		
+		if (get_ents(data, ents, &nextdirs, opts))
+		{
+			*curdir = (*curdir)->next;	
+			*ents = NULL; // DELETE
+			nextdirs = NULL; // OK
+		   continue ;
+		}	
 
 		if (opts & FT_RECURSIVE)
 			ft_lstinsert(*curdir, nextdirs);
 
 		ls_sort(ents, opts);
 		ls_display(*ents, data->path, opts);
-
-		
-		//printf("\nEntries: "); // DEBUG
-		//ft_print_lst(*ents);
-		//printf("Dirs: "); // DEBUG
-		//ft_print_lst(nextdirs);
-		//printf("\n"); // DEBUG
-
 
 		*curdir = (*curdir)->next;	
 		*ents = NULL; // DELETE
