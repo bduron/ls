@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/12 15:50:22 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/12 17:45:23 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 		if (get_ents(data, ents, &nextdirs, opts))
 		{
 			*curdir = (*curdir)->next;	
-			*ents = NULL; // DELETE
-			nextdirs = NULL; // OK
+			*ents = NULL; // DELETE free 
+			nextdirs = NULL; // OK list integré a dirs
 		   continue ;
 		}	
 
@@ -110,6 +110,8 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 
 		ls_sort(ents, opts);
 		ls_display(*ents, data->path, opts);
+		if ((*curdir)->next)
+   			printf("\n");
 		// if last dir to visit trigger LASTDIR opt -> control last -R \n
 
 		*curdir = (*curdir)->next;	

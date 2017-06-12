@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/12 16:54:08 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/12 17:47:35 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void init_fmt(t_fmt *fmt, t_list *ents, int opts)
 	{
 		data = (t_data *)ents->content;
 		name = (data->dirent) ? data->dirent->d_name : data->path; 	
-		if (!(opts & FT_DOT) && *name == '.' && (ents = ents->next))
+		if (!(opts & FT_DOT) && *name == '.')
+		{	
+			ents = ents->next;
 			continue;
+		}
 		else
 			fmt->total += ((t_data *)ents->content)->stat.st_blocks;
 		stat = ((t_data *)ents->content)->stat;
@@ -175,10 +178,12 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 	static int		firstdir;	
 	t_fmt			fmt;
 	
-	init_fmt(&fmt, ents, opts);
 
 	if (firstdir++ || opts & FT_DIRNAME)
   		printf("%s:\n", dirpath);
+
+	if ()
+		init_fmt(&fmt, ents, opts);
 
   	if (opts & FT_LIST)
 		printf("total %ld\n", fmt.total); /////////// REPRENDRE LA
@@ -198,7 +203,4 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 			printf("%s\n", data->dirent->d_name);
 		ents = ents->next;
 	}
-		
-	if (opts & FT_RECURSIVE)	
-   		printf("\n");
 }
