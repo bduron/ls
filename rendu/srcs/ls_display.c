@@ -177,13 +177,12 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 	t_data			*data;
 	static int		firstdir;	
 	t_fmt			fmt;
-	
+	int				type; // munki 644
 
 	if (firstdir++ || opts & FT_DIRNAME)
   		printf("%s:\n", dirpath);
 
-	if ()
-		init_fmt(&fmt, ents, opts);
+	init_fmt(&fmt, ents, opts);
 
   	if (opts & FT_LIST)
 		printf("total %ld\n", fmt.total); /////////// REPRENDRE LA
@@ -191,6 +190,9 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 	while (ents)
 	{
 		data = ents->content;
+	 	type = data->stat.st_mode & S_IFMT; 						// munki 644
+		if ((type & S_IFDIR))		//
+			printf("FORBIDDEN\n"); 									//
 		
 		if (*(data->dirent->d_name) == '.' && !(opts & FT_DOT))
 		{
