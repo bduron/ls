@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/09 17:31:48 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/12 16:54:08 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,21 @@
 #define MAX(a, b) (a > b ? a : b)
 #define MAX_LS(a, b) a = MAX(a, b)
 
-void init_fmt(t_fmt *fmt, t_list *ents)
+void init_fmt(t_fmt *fmt, t_list *ents, int opts)
 {	
 	struct stat stat;
+	char *name;
+	t_data *data;
 
 	ft_bzero(fmt, sizeof(*fmt));
 	while (ents)
 	{
+		data = (t_data *)ents->content;
+		name = (data->dirent) ? data->dirent->d_name : data->path; 	
+		if (!(opts & FT_DOT) && *name == '.' && (ents = ents->next))
+			continue;
+		else
+			fmt->total += ((t_data *)ents->content)->stat.st_blocks;
 		stat = ((t_data *)ents->content)->stat;
 		MAX_LS(fmt->size, (int)ft_nblen(stat.st_size, 10));
 		MAX_LS(fmt->link, (int)ft_nblen(stat.st_nlink, 10));
@@ -114,12 +122,15 @@ void ls_display_list(t_data *data, t_fmt fmt)
 	   ;	
 	date[ft_strlen(date) - 9] = '\0';
 	printf("%s ", disp_chmod(file_stat));
-	printf("%*d ", fmt.link, (int)file_stat.st_nlink);
+	printf("%*d ", fmt.link + 1, (int)file_stat.st_nlink);
 	printf("%-*s  ", fmt.uid, getpwuid(file_stat.st_uid)->pw_name);
 	printf("%-*s  ", fmt.gid, getgrgid(file_stat.st_gid)->gr_name);
 	printf("%*ld ", fmt.size, (long)file_stat.st_size);
 	printf("%s ", date);
-	printf("%s", data->dirent->d_name); // FLUSH
+	if (data->dirent)
+		printf("%s", data->dirent->d_name); // FLUSH
+	else
+		printf("%s", data->path); // FLUSH
 	if (!((file_stat.st_mode & S_IFMT) == S_IFLNK))
 	   printf("\n");	
 	
@@ -132,39 +143,62 @@ void ls_display_list(t_data *data, t_fmt fmt)
 
 }
 
+void ls_display_flush(t_list *ents, t_list *nextdirs, int opts)
+{
+	t_data			*data;
+	t_fmt			fmt;
+	
+	init_fmt(&fmt, ents, opts);
+
+	while (ents)
+	{
+		data = ents->content;
+		
+		if (*(data->path) == '.' && !(opts & FT_DOT))
+		{
+			ents = ents->next;
+			continue;
+		}
+		if (opts & FT_LIST)
+			ls_display_list(data, fmt);	
+		else 										//FLUSH
+			printf("%s\n", data->path);	//FLUSH
+		ents = ents->next;
+	}
+	if (nextdirs)	
+   		printf("\n");
+}
+
 void ls_display(t_list *ents, char *dirpath, int opts)
 {
 	t_data			*data;
 	static int		firstdir;	
 	t_fmt			fmt;
 	
-	init_fmt(&fmt, ents);
+	init_fmt(&fmt, ents, opts);
 
 	if (firstdir++ || opts & FT_DIRNAME)
   		printf("%s:\n", dirpath);
 
-  	printf("total %ld\n", fmt.total); /////////// REPRENDRE LA
+  	if (opts & FT_LIST)
+		printf("total %ld\n", fmt.total); /////////// REPRENDRE LA
 
 	while (ents)
 	{
 		data = ents->content;
 		
-		if (data->dirent) // FLUSH
-			if (*(data->dirent->d_name) == '.' && !(opts & FT_DOT))
-			{
-				ents = ents->next;
-				continue;
-			}
+		if (*(data->dirent->d_name) == '.' && !(opts & FT_DOT))
+		{
+			ents = ents->next;
+			continue;
+		}
 		if (opts & FT_LIST)
 			ls_display_list(data, fmt);	
-		else if (data->dirent) 
+		else
 			printf("%s\n", data->dirent->d_name);
-		else 										//FLUSH
-			printf("%s\n", data->path);	//FLUSH
 		ents = ents->next;
 	}
-		// printf("nlink_pad = %d\n", fmt.nlink_pad); //
-		// printf("size_pad = %d\n", fmt.size_pad); //
-	printf("\n");
-
+		
+	if (opts & FT_RECURSIVE)	
+   		printf("\n");
 }

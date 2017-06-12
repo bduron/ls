@@ -1,4 +1,3 @@
-total 0
 Makefile
 auteur
 debbug.o
@@ -22,4 +21,3 @@ srcs.old
 std.log
 tests
 todo.md
-

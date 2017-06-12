@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/09 16:58:56 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/12 15:50:22 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 
 	if ((dirp = opendir(curdir->path)) == NULL)
 	{
-		printf("%s:\nls: %s: %s\n", curdir->path, ft_strrchr(curdir->path, '/') + 1, strerror(errno));	
+		printf("%s:\nls: %s: %s\n\n", curdir->path, ft_strrchr(curdir->path, '/') + 1, strerror(errno));	
 		return (1);
 	}
 
@@ -110,6 +110,7 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 
 		ls_sort(ents, opts);
 		ls_display(*ents, data->path, opts);
+		// if last dir to visit trigger LASTDIR opt -> control last -R \n
 
 		*curdir = (*curdir)->next;	
 		*ents = NULL; // DELETE

@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/09 17:00:17 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/12 16:35:46 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void ls_sort(t_list **ents, int opts);
 void ls_display(t_list *ents, char *dirpath, int opts);
 void ls_display_list(t_data *data, t_fmt fmt);
 char *disp_chmod(struct stat file_stat);
-void init_fmt(t_fmt *fmt, t_list *ents);
+void init_fmt(t_fmt *fmt, t_list *ents, int opts);
+void ls_display_flush(t_list *ents, t_list *nextdirs, int opts);
 
 int cmp_av(void const *a, void const *b);
 int ls_cmpmtime(t_list *a, t_list *b);
