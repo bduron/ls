@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/13 14:11:52 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/13 17:02:43 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/13 18:10:15 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,28 @@ void init_fmt(t_fmt *fmt, t_list *ents, int opts)
 	}
 }
 
+void disp_chmod_sst(struct stat file_stat)
+{
+	ft_putchar((S_IRUSR & file_stat.st_mode) ? 'r' : '-');	
+	ft_putchar((S_IWUSR & file_stat.st_mode) ? 'w' : '-');
+	if (file_stat.st_mode & S_ISUID)
+		ft_putchar((S_IXUSR & file_stat.st_mode) ? 's' : 'S');
+	else 
+		ft_putchar((S_IXUSR & file_stat.st_mode) ? 'x' : '-');
+	ft_putchar((S_IRGRP & file_stat.st_mode) ? 'r' : '-');
+	ft_putchar((S_IWGRP & file_stat.st_mode) ? 'w' : '-');
+	if (file_stat.st_mode & S_ISGID)
+		ft_putchar((S_IXGRP & file_stat.st_mode) ? 's' : 'S');
+	else 
+		ft_putchar((S_IXGRP & file_stat.st_mode) ? 'x' : '-');
+	ft_putchar((S_IROTH & file_stat.st_mode) ? 'r' : '-');
+	ft_putchar((S_IWOTH & file_stat.st_mode) ? 'w' : '-');
+	if (file_stat.st_mode & S_ISVTX)
+		ft_putchar((S_IXOTH & file_stat.st_mode) ? 't' : 'T');
+	else
+		ft_putchar((S_IXOTH & file_stat.st_mode) ? 'x' : '-');
+}
+
 void disp_chmod(struct stat file_stat)
 {
 	int type;
@@ -55,15 +77,7 @@ void disp_chmod(struct stat file_stat)
 	c = (type == S_IFLNK) ? 'l' : c;
 	c = (type == S_IFSOCK) ? 's' : c;
 	ft_putchar(c);	
-	ft_putchar((S_IRUSR & file_stat.st_mode) ? 'r' : '-');	
-	ft_putchar((S_IWUSR & file_stat.st_mode) ? 'w' : '-');
-	ft_putchar((S_IXUSR & file_stat.st_mode) ? 'x' : '-');
-	ft_putchar((S_IRGRP & file_stat.st_mode) ? 'r' : '-');
-	ft_putchar((S_IWGRP & file_stat.st_mode) ? 'w' : '-');
-	ft_putchar((S_IXGRP & file_stat.st_mode) ? 'x' : '-');
-	ft_putchar((S_IROTH & file_stat.st_mode) ? 'r' : '-');
-	ft_putchar((S_IWOTH & file_stat.st_mode) ? 'w' : '-');
-	ft_putchar((S_IXOTH & file_stat.st_mode) ? 'x' : '-');
+	disp_chmod_sst(file_stat);	
 }
 
 void print_link(t_data *data, struct stat file_stat)
@@ -86,9 +100,9 @@ void print_date(struct stat file_stat)
 	char *date;
 
 	date = ctime(&file_stat.st_mtime);
-	while (*date++ != ' ')
-	   ;	
-	date[ft_strlen(date) - 9] = '\0';
+	//while (*date++ != ' ')
+	//   ;	
+	//date[ft_strlen(date) - 9] = '\0';
 	printf("%s ", date);
 }
 
