@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/12 17:45:23 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/13 13:32:05 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 	while ((dp = readdir(dirp)) != NULL)
 	{
 		data.path = construct_path(curdir->path, dp->d_name);
-		lstat(data.path, &data.stat); // protect
+		if (lstat(data.path, &data.stat) < 0)
+		{
+			printf("ls: %s: %s\n", data.path, strerror(errno));	
+			return (1) ;			
+		}	// protect
 		data.dirent = malloc(sizeof(*dp) + 1);
 		ft_memcpy(data.dirent, dp, sizeof(*dp));
 		

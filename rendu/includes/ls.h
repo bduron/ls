@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/12 16:35:46 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/13 14:21:53 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <pwd.h>
-//# include <uuid/uuid.h>
+# include <uuid/uuid.h>
 # include <grp.h>
 # include <unistd.h>
 #include <time.h>
@@ -43,7 +43,7 @@ typedef struct		s_data
 	struct stat		stat;
 	struct dirent	*dirent;
 	char			*path;
-}				t_data;
+}					t_data;
 
 typedef struct		s_fmt
 {
@@ -52,7 +52,7 @@ typedef struct		s_fmt
 	int				link;
 	int				uid;
 	int				gid;
-}				t_fmt;
+}					t_fmt;
 
 int		parse_ls(int argc, char **argv, t_list **ents, t_list **dirs);
 int		get_opt(int argc, char **argv, int *opts);
@@ -62,12 +62,12 @@ int		get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts);
 void run_ls(t_list **ents, t_list **dirs, int opts);
 void ls_sort(t_list **ents, int opts);
 
-
 void ls_display(t_list *ents, char *dirpath, int opts);
 void ls_display_list(t_data *data, t_fmt fmt);
-char *disp_chmod(struct stat file_stat);
+void disp_chmod(struct stat file_stat);
 void init_fmt(t_fmt *fmt, t_list *ents, int opts);
 void ls_display_flush(t_list *ents, t_list *nextdirs, int opts);
+void print_link(t_data *data, struct stat file_stat);
 
 int cmp_av(void const *a, void const *b);
 int ls_cmpmtime(t_list *a, t_list *b);

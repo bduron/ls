@@ -6,7 +6,7 @@
 #    By: bduron <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/07 13:02:54 by bduron            #+#    #+#              #
-#    Updated: 2017/06/12 17:35:26 by bduron           ###   ########.fr        #
+#    Updated: 2017/06/13 14:14:01 by bduron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ ls_parsing.c \
 ls_cmp.c \
 ls_main.c \
 ls_display.c \
+ls_display_list.c \
 ls_libft.c \
 debbug.c
  
