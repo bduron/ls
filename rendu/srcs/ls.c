@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/13 13:35:12 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/14 12:58:40 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int main(int argc, char **argv)
 	
 	if (ents)  // ls_sort(&ents, opts);
 		ls_display_flush(ents, dirs, opts);
-	ents = NULL;
+
 	run_ls(&ents, &dirs, opts);
+
+	ft_lstdel(&dirs, ls_ents_free); 
 	return (0);
 }
 

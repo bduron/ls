@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 12:16:55 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/12 16:57:40 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/14 12:54:23 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_timestr *ft_timestr(time_t timestamp)
 	time->second = ft_strsub(date, 17, 2);
 	time->year = ft_isdigit(date[20]) ?
 		ft_strsub(date, 20, 4) : ft_strsub(date, 24, 5);
+	ft_strdel(&date);
 	return (time);
 }
 

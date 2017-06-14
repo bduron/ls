@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debbug.c                                           :+:      :+:    :+:   */
+/*   ls_ents_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/07 09:21:04 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/14 11:55:59 by bduron           ###   ########.fr       */
+/*   Created: 2017/06/14 12:07:22 by bduron            #+#    #+#             */
+/*   Updated: 2017/06/14 12:51:38 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ls.h"
 
-void printav(char **av)
+void ls_ents_free(void *p, size_t size)
 {
-	while (*av)
-		ft_printf("%s\n", *av++);
+	t_data	*data;
+
+	data = (t_data *)p;
+
+	if (data)
+	{
+	
+		ft_strdel(&data->path);
+		if (data->dirent)
+			ft_memdel((void **)&data->dirent);
+		free(data);
+	}
+	(void)size;
 }
 
-void ft_print_lst(t_list *head)
-{
-	while (head)
-	{
-		ft_printf("%s ", ((t_data *)head->content)->path);
-		head = head->next;	
-	}		
-	ft_printf("\n");
-}
+//void ls_fmt_free(t_fmt *fmt)
+//{
+//
+//
+//}

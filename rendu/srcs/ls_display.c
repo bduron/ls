@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/13 14:11:25 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/13 14:12:46 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/14 12:45:09 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ void ls_display_flush(t_list *ents, t_list *nextdirs, int opts)
 		if (opts & FT_LIST)
 			ls_display_list(data, fmt);	
 		else
-			printf("%s\n", data->path);
+			ft_printf("%s\n", data->path);
 		ents = ents->next;
 	}
 	if (nextdirs)	
-   		printf("\n");
+   		ft_printf("\n");
+	ft_lstdel(&ents, ls_ents_free); 
 }
 
 void ls_display(t_list *ents, char *dirpath, int opts)
@@ -44,10 +45,10 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 	t_fmt			fmt;
 
 	if (firstdir++ || opts & FT_DIRNAME)
-  		printf("%s:\n", dirpath);
+  		ft_printf("%s:\n", dirpath);
 	init_fmt(&fmt, ents, opts);
   	if (opts & FT_LIST)
-		printf("total %ld\n", fmt.total);
+		ft_printf("total %ld\n", fmt.total);
 	while (ents)
 	{
 		data = ents->content;
@@ -59,7 +60,7 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 		if (opts & FT_LIST)
 			ls_display_list(data, fmt);	
 		else
-			printf("%s\n", data->dirent->d_name);
+			ft_printf("%s\n", data->dirent->d_name);
 		ents = ents->next;
 	}
 }

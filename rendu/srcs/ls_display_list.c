@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/13 14:11:52 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/13 18:10:15 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/14 12:50:08 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ void print_link(t_data *data, struct stat file_stat)
 	ssize_t len;
 
 	if (!((file_stat.st_mode & S_IFMT) == S_IFLNK))
-	   printf("\n");	
+	   ft_printf("\n");	
 	if ((file_stat.st_mode & S_IFMT) == S_IFLNK) 
 	{
 		if ((len = readlink(data->path, buf, sizeof(buf)-1)) != -1)
     		buf[len] = '\0';
-		printf(" -> %s\n", buf);
+		ft_printf(" -> %s\n", buf);
 	}
 }
 
@@ -101,9 +101,9 @@ void print_date(struct stat file_stat)
 
 	time = ft_timestr(file_stat.st_mtime);
 	if (ft_time_isrecent(file_stat.st_mtime))
-		printf("%s %s %s:%s ", time->month, time->day, time->hour, time->minute);
+		ft_printf("%s %s %s:%s ", time->month, time->day, time->hour, time->minute);
 	else 
-		printf("%s %s %5s ", time->month, time->day, time->year);
+		ft_printf("%s %s %5s ", time->month, time->day, time->year);
 	ft_timestr_del(time);
 }
 
@@ -116,10 +116,10 @@ void print_size(t_fmt fmt, struct stat file_stat)
 	{
 		 min = minor(file_stat.st_rdev);
 		 maj = major(file_stat.st_rdev);
-		 printf("%3d, %3d ", maj, min);
+		 ft_printf("%3d, %3d ", maj, min);
 	}
 	else 
-		printf("%*ld ", fmt.size, (long)file_stat.st_size);
+		ft_printf("%*ld ", fmt.size, (long)file_stat.st_size);
 }
 
 void ls_display_list(t_data *data, t_fmt fmt)
@@ -128,15 +128,15 @@ void ls_display_list(t_data *data, t_fmt fmt)
 
 	if (lstat(data->path, &file_stat) < 0)
 	{
-		printf("ls: %s: %s\n", data->path, strerror(errno));	
+		ft_printf("ls: %s: %s\n", data->path, strerror(errno));	
 		return ;			
 	}
 	disp_chmod(file_stat);
-	printf("%*d ", fmt.link + 1, (int)file_stat.st_nlink);
-	printf("%-*s  ", fmt.uid, getpwuid(file_stat.st_uid)->pw_name);
-	printf("%-*s  ", fmt.gid, getgrgid(file_stat.st_gid)->gr_name);
+	ft_printf("%*d ", fmt.link + 1, (int)file_stat.st_nlink);
+	ft_printf("%-*s  ", fmt.uid, getpwuid(file_stat.st_uid)->pw_name);
+	ft_printf("%-*s  ", fmt.gid, getgrgid(file_stat.st_gid)->gr_name);
 	print_size(fmt, file_stat);
 	print_date(file_stat);
-	printf("%s", (data->dirent ? data->dirent->d_name : data->path)); 
+	ft_printf("%s", (data->dirent ? data->dirent->d_name : data->path)); 
 	print_link(data, file_stat);
 }

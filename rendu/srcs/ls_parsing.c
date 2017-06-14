@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/09 07:30:33 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/14 11:55:59 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void ls_usage(char opt)
 {
-	printf("ls: illegal option -- %c\n", opt);
-	printf("usage: ls [-Ralrt] [file ...]\n");
+	ft_printf("ls: illegal option -- %c\n", opt);
+	ft_printf("usage: ls [-Ralrt] [file ...]\n");
 	exit(1);
 } 
 
@@ -29,12 +29,12 @@ void get_files(char **argv, int opts, t_list **ents, t_list **dirs)
 	{	
 		if (lstat(*argv, &data.stat) < 0)
 		{
-			printf("ls: %s: %s\n", *argv, strerror(errno));	
+			ft_printf("ls: %s: %s\n", *argv, strerror(errno));	
 			argv++;
 			continue ;
 		}
 		data.path = ft_strdup(*argv); 
-		//printf("Copied data: %s\n", data.path);// 
+		//ft_printf("Copied data: %s\n", data.path);// 
 		if (S_ISDIR(data.stat.st_mode))  
 			ft_lstaddback(dirs, ft_lstnew(&data, sizeof(data))); 		
 		else

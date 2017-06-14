@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/13 14:21:53 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/14 12:46:42 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int ls_cmpname(t_list *a, t_list *b);
 
 void ls_usage(char opt);
 
+
+void ls_ents_free(void *p, size_t size);
 
 /* Debbug functions */
 void printav(char **av);

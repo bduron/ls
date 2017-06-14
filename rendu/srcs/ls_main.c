@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/13 13:32:05 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/14 12:43:28 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 
 	if ((dirp = opendir(curdir->path)) == NULL)
 	{
-		printf("%s:\nls: %s: %s\n\n", curdir->path, ft_strrchr(curdir->path, '/') + 1, strerror(errno));	
+		ft_printf("%s:\nls: %s: %s\n\n", curdir->path, ft_strrchr(curdir->path, '/') + 1, strerror(errno));	
 		return (1);
 	}
 
@@ -54,7 +54,7 @@ int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 		data.path = construct_path(curdir->path, dp->d_name);
 		if (lstat(data.path, &data.stat) < 0)
 		{
-			printf("ls: %s: %s\n", data.path, strerror(errno));	
+			ft_printf("ls: %s: %s\n", data.path, strerror(errno));	
 			return (1) ;			
 		}	// protect
 		data.dirent = malloc(sizeof(*dp) + 1);
@@ -100,7 +100,7 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 	while (*curdir)
 	{	
 		data = (*curdir)->content;
-		//printf("Entering %s\n", data->path); // DEBUG
+		//ft_printf("Entering %s\n", data->path); // DEBUG
 		if (get_ents(data, ents, &nextdirs, opts))
 		{
 			*curdir = (*curdir)->next;	
@@ -115,11 +115,12 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 		ls_sort(ents, opts);
 		ls_display(*ents, data->path, opts);
 		if ((*curdir)->next)
-   			printf("\n");
+   			ft_printf("\n");
 		// if last dir to visit trigger LASTDIR opt -> control last -R \n
 
 		*curdir = (*curdir)->next;	
-		*ents = NULL; // DELETE
+		ft_lstdel(ents, ls_ents_free); 
+		//*ents = NULL; // DELETE
 		nextdirs = NULL; // OK
 	}
 	//ft_lstdel(ents);
@@ -183,16 +184,16 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 //	struct stat file_stat;
 //
 //	if (stat(path, &file_stat) < 0)
-//		printf("ls: %s: %s\n", path, strerror(errno));	
+//		ft_printf("ls: %s: %s\n", path, strerror(errno));	
 //
 //
-//	printf("%s ", disp_chmod(file_stat));
-//	printf("%d ", (int)file_stat.st_nlink);
-//	printf("%s ", getpwuid(file_stat.st_uid)->pw_name);
-//	printf("%s ", getgrgid(file_stat.st_gid)->gr_name);
-//	printf("%d ", (int)file_stat.st_size);
-//	//printf("%s\n", strrchr(path, '/') + 1);
-//	printf("%s\n", path);
+//	ft_printf("%s ", disp_chmod(file_stat));
+//	ft_printf("%d ", (int)file_stat.st_nlink);
+//	ft_printf("%s ", getpwuid(file_stat.st_uid)->pw_name);
+//	ft_printf("%s ", getgrgid(file_stat.st_gid)->gr_name);
+//	ft_printf("%d ", (int)file_stat.st_size);
+//	//ft_printf("%s\n", strrchr(path, '/') + 1);
+//	ft_printf("%s\n", path);
 //
 //
 //	//	 Groupe: staff
