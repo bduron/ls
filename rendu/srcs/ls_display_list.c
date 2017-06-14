@@ -97,13 +97,14 @@ void print_link(t_data *data, struct stat file_stat)
 
 void print_date(struct stat file_stat)
 {
-	char *date;
+	t_timestr *time;
 
-	date = ctime(&file_stat.st_mtime);
-	//while (*date++ != ' ')
-	//   ;	
-	//date[ft_strlen(date) - 9] = '\0';
-	printf("%s ", date);
+	time = ft_timestr(file_stat.st_mtime);
+	if (ft_time_isrecent(file_stat.st_mtime))
+		printf("%s %s %s:%s ", time->month, time->day, time->hour, time->minute);
+	else 
+		printf("%s %s %5s ", time->month, time->day, time->year);
+	ft_timestr_del(time);
 }
 
 void print_size(t_fmt fmt, struct stat file_stat)

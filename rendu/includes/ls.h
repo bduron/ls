@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <pwd.h>
-# include <uuid/uuid.h>
+//# include <uuid/uuid.h>
 # include <grp.h>
 # include <unistd.h>
 #include <time.h>
@@ -54,6 +54,18 @@ typedef struct		s_fmt
 	int				gid;
 }					t_fmt;
 
+/////////// TIME //////////////
+typedef struct s_timestr
+{
+	char *weekday;
+	char *month;
+	char *day;
+	char *hour;
+	char *minute;
+	char *second;
+	char *year;
+}				t_timestr;
+
 int		parse_ls(int argc, char **argv, t_list **ents, t_list **dirs);
 int		get_opt(int argc, char **argv, int *opts);
 void	get_files(char **argv, int opts, t_list **ents, t_list **dirs);
@@ -81,6 +93,10 @@ void printav(char **av);
 void ft_print_lst(t_list *head);
 
 /* LIBFT */
+t_timestr *ft_timestr(time_t timestamp);
+void ft_timestr_del(t_timestr *time);
+int		ft_time_isrecent(time_t event);
+
 int ft_nblen(long n, int base);
 
 void ft_lstinsert(t_list *dst, t_list *src);

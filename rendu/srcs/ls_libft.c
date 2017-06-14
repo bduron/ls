@@ -14,6 +14,53 @@
 
 #include "ls.h"
 
+/////////// TIME //////////////
+
+t_timestr *ft_timestr(time_t timestamp)
+{
+	char		*date;
+	t_timestr	*time;
+
+	time = (t_timestr*)malloc(sizeof(*time));	
+	date = ctime(&timestamp);
+	date[ft_strlen(date) - 1] = '\0';
+
+	time->weekday = ft_strsub(date, 0, 3);
+	time->month = ft_strsub(date, 4, 3);
+	time->day = ft_strsub(date, 8, 2);
+	time->hour = ft_strsub(date, 11, 2);
+	time->minute = ft_strsub(date, 14, 2);
+	time->second = ft_strsub(date, 17, 2);
+	time->year = ft_isdigit(date[20]) ?
+		ft_strsub(date, 20, 4) : ft_strsub(date, 24, 5);
+	return (time);
+}
+
+void ft_timestr_del(t_timestr *time)
+{
+	free(time->weekday); 		
+	free(time->day); 		
+	free(time->month); 		
+	free(time->hour); 		
+	free(time->minute); 		
+	free(time->second); 		
+	free(time->year); 		
+	free(time);
+}
+
+int		ft_time_isrecent(time_t event)
+{
+	time_t	now;
+
+	now = time(&now);
+	if (now - event >= 0 && now - event <= 6 * 365 / 12 * 24 * 60 * 60)
+		return (1);
+	else
+		return (0);
+}
+
+//////////////////////////////
+
 
 int ft_nblen(long n, int base)
 {
