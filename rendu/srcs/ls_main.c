@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/14 12:43:28 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/16 20:47:43 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ int get_ents(char *curdir, t_list **ents, t_list **nextdirs, int opts)
 		data.path = construct_path(curdir, dp->d_name);
 		if (lstat(data.path, &data.stat) < 0)
 		{
-			ft_printf("ls: %s: %s\n", data.path, strerror(errno));	
-			return (1) ;			
+			ft_printf("ls: %s: %s\n", dp->d_name, strerror(errno));	
+			free(data.path);
+			continue ;
+			//return (1) ;			
 		}	// protect
 		data.dirent = malloc(sizeof(*dp) + 1);
 		ft_memcpy(data.dirent, dp, sizeof(*dp));
@@ -73,6 +75,9 @@ int get_ents(char *curdir, t_list **ents, t_list **nextdirs, int opts)
 	}
 	//ft_print_dirs(*nextdirs); /// DEBUG
 	ft_lstsort(nextdirs, ls_cmpnamedir);
+	if (opts & FT_REVERSE)
+		ft_list_reverse(nextdirs);
+	//ft_print_dirs(*nextdirs); /// DEBUG
 	(void)closedir(dirp);
 	return (0);
 }

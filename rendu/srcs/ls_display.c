@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/13 14:11:25 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/14 12:45:09 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/16 20:35:46 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void ls_display_flush(t_list *ents, t_list *nextdirs, int opts)
 	t_fmt			fmt;
 	
 	init_fmt(&fmt, ents, opts);
+	if (opts & FT_REVERSE && ents)
+			ft_list_reverse(&ents);
 	while (ents)
 	{
 		data = ents->content;
@@ -46,7 +48,7 @@ void ls_display(t_list *ents, char *dirpath, int opts)
 	if (firstdir++ || opts & FT_DIRNAME)
   		ft_printf("%s:\n", dirpath);
 	init_fmt(&fmt, ents, opts);
-  	if (opts & FT_LIST)
+  	if ((opts & FT_LIST) && ents)
 		ft_printf("total %ld\n", fmt.total);
 	while (ents)
 	{

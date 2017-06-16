@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/29 19:18:26 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/14 12:58:40 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/16 20:37:01 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 	ents = NULL;
 	dirs = NULL;
 	opts = parse_ls(argc, argv, &ents, &dirs);
-	
+
 	if (ents)  // ls_sort(&ents, opts);
 	{
 		ls_display_flush(ents, dirs, opts);
@@ -29,6 +29,8 @@ int main(int argc, char **argv)
 //		printf("FLUSHED\n");
 	}
 	ents = NULL; // 
+	if (opts & FT_REVERSE)
+		ft_list_reverse(&dirs);
 	run_ls(&ents, &dirs, opts);
 
 	ft_lstdel(&dirs, ls_dirs_free); 

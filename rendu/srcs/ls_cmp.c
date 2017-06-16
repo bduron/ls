@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/07 09:33:48 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/12 10:52:10 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/16 18:33:42 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int ls_cmpnamedir(t_list *a, t_list *b)
 	char *name_a;
 	char *name_b;
 
-	name_a = (char *)a;
-	name_b = (char *)b;
+	name_a = ((char *)a->content);
+	name_b = ((char *)b->content);
 
 	return (ft_strcmp(name_a, name_b));
 }
