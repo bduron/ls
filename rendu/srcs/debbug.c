@@ -27,3 +27,13 @@ void ft_print_lst(t_list *head)
 	}		
 	ft_printf("\n");
 }
+
+void ft_print_dirs(t_list *head)
+{
+	while (head)
+	{
+		ft_printf("%s ", ((char *)head->content));
+		head = head->next;	
+	}		
+	ft_printf("\n");
+}

@@ -20,6 +20,17 @@ int cmp_av(void const *a, void const *b)
 	return (ft_strcmp(pa, pb)); 
 }
 
+int ls_cmpnamedir(t_list *a, t_list *b)
+{
+	char *name_a;
+	char *name_b;
+
+	name_a = (char *)a;
+	name_b = (char *)b;
+
+	return (ft_strcmp(name_a, name_b));
+}
+
 int ls_cmpname(t_list *a, t_list *b)
 {
 	char *name_a;

@@ -69,7 +69,7 @@ typedef struct s_timestr
 int		parse_ls(int argc, char **argv, t_list **ents, t_list **dirs);
 int		get_opt(int argc, char **argv, int *opts);
 void	get_files(char **argv, int opts, t_list **ents, t_list **dirs);
-int		get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts);
+int		get_ents(char *curdir, t_list **ents, t_list **nextdirs, int opts);
 
 void run_ls(t_list **ents, t_list **dirs, int opts);
 void ls_sort(t_list **ents, int opts);
@@ -84,15 +84,18 @@ void print_link(t_data *data, struct stat file_stat);
 int cmp_av(void const *a, void const *b);
 int ls_cmpmtime(t_list *a, t_list *b);
 int ls_cmpname(t_list *a, t_list *b);
+int ls_cmpnamedir(t_list *a, t_list *b);
 
 void ls_usage(char opt);
 
 
 void ls_ents_free(void *p, size_t size);
+void ls_dirs_free(void *p, size_t size);
 
 /* Debbug functions */
 void printav(char **av);
 void ft_print_lst(t_list *head);
+void ft_print_dirs(t_list *head);
 
 /* LIBFT */
 t_timestr *ft_timestr(time_t timestamp);

@@ -33,15 +33,16 @@ void get_files(char **argv, int opts, t_list **ents, t_list **dirs)
 			argv++;
 			continue ;
 		}
-		data.path = ft_strdup(*argv); 
 		//ft_printf("Copied data: %s\n", data.path);// 
 		if (S_ISDIR(data.stat.st_mode))  
-			ft_lstaddback(dirs, ft_lstnew(&data, sizeof(data))); 		
+			ft_lstaddback(dirs, ft_lstnew(*argv, ft_strlen(*argv) + 1)); 		
 		else
+		{
+			data.path = ft_strdup(*argv); 
 			ft_lstaddback(ents, ft_lstnew(&data, sizeof(data))); 		
+		}
 		argv++;
 	}	
-	(void)dirs;
 	(void)opts;
 }
 
@@ -91,7 +92,7 @@ int parse_ls(int argc, char **argv, t_list **ents, t_list **dirs)
 		opts |= FT_DIRNAME;
 
 	if (argc - nb_opts == 0)
-		get_files((char *[2]){".", NULL}, opts, ents, dirs);		
+		get_files((char *[2]){".", NULL}, opts, ents, dirs);
 	else 
 		get_files(argv + nb_opts, opts, ents, dirs);		
 	

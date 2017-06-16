@@ -37,21 +37,21 @@ char *construct_path(const char *parent, const char *path)
 	return (fullpath);
 }
 
-int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
+int get_ents(char *curdir, t_list **ents, t_list **nextdirs, int opts)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
 	t_data			data;
 
-	if ((dirp = opendir(curdir->path)) == NULL)
+	if ((dirp = opendir(curdir)) == NULL)
 	{
-		ft_printf("%s:\nls: %s: %s\n\n", curdir->path, ft_strrchr(curdir->path, '/') + 1, strerror(errno));	
+		ft_printf("%s:\nls: %s: %s\n\n", curdir, ft_strrchr(curdir, '/') + 1, strerror(errno));	
 		return (1);
 	}
 
 	while ((dp = readdir(dirp)) != NULL)
 	{
-		data.path = construct_path(curdir->path, dp->d_name);
+		data.path = construct_path(curdir, dp->d_name);
 		if (lstat(data.path, &data.stat) < 0)
 		{
 			ft_printf("ls: %s: %s\n", data.path, strerror(errno));	
@@ -65,13 +65,14 @@ int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 				&& dp->d_name[0] == '.'))
 			continue ;
 		if (S_ISDIR(data.stat.st_mode) && ft_strcmp(dp->d_name, ".") 
-				&& ft_strcmp(dp->d_name, ".."))
+				&& ft_strcmp(dp->d_name, "..") && (opts & FT_RECURSIVE))
 		{	
-			data.path = ft_strdup(data.path); // improve this 
-			ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
+			//data.path = ft_strdup(data.path); // improve this 
+			ft_lstadd(nextdirs, ft_lstnew(data.path, sizeof(char) * ft_strlen(data.path) + 1));
 		}
 	}
-	ft_lstsort(nextdirs, ls_cmpname);
+	//ft_print_dirs(*nextdirs); /// DEBUG
+	ft_lstsort(nextdirs, ls_cmpnamedir);
 	(void)closedir(dirp);
 	return (0);
 }
@@ -94,7 +95,7 @@ void ls_sort(t_list **ents, int opts)
 
 void run_ls(t_list **ents, t_list **dirs, int opts)
 {
-	t_data *data; 
+	char *dirpath; 
 	t_list *nextdirs;
 	t_list *curdir; 
 
@@ -102,31 +103,32 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 	curdir = *dirs;
 	while (curdir)
 	{	
-		data = curdir->content;
+		dirpath = curdir->content;
 		//ft_printf("Entering %s\n", data->path); // DEBUG
-		if (get_ents(data, ents, &nextdirs, opts))
+		if (get_ents(dirpath, ents, &nextdirs, opts)) 
 		{
 			curdir = curdir->next;	
-			*ents = NULL; // DELETE free 
+			ft_lstdel(ents, ls_ents_free); 
+			//*ents = NULL; // DELETE free 
 			nextdirs = NULL; // OK list integré a dirs
 		   continue ;
 		}	
 
 		if (opts & FT_RECURSIVE)
 		{
-			ft_printf("-------------------------\n");
-			ft_printf("[%s]\n", data->path);
-			ft_printf("Dirs before insert : ");
-			ft_print_lst(*dirs);
+			//ft_printf("-------------------------\n");
+			//ft_printf("[%s]\n", data->path);
+			//ft_printf("Dirs before insert : ");
+			//ft_print_lst(*dirs);
 			ft_lstinsert(curdir, nextdirs);
-			ft_printf("Dirs after insert : ");
-			ft_print_lst(*dirs);
-			ft_printf("\n");
+			//ft_printf("Dirs after insert : ");
+			//ft_print_lst(*dirs);
+			//ft_printf("\n");
 	
 		}
 
 		ls_sort(ents, opts); 
-		ls_display(*ents, data->path, opts);
+		ls_display(*ents, dirpath, opts);
 		if (curdir->next)
    			ft_printf("\n");
 		// if last dir to visit trigger LASTDIR opt -> control last -R \n
@@ -147,70 +149,3 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//char *disp_chmod(struct stat file_stat)
-//{
-//	char *chmod;
-//
-//	chmod = (char *)malloc(sizeof(char) * 11);
-//
-//	chmod[0] = (S_ISDIR(file_stat.st_mode)) ? 'd' : '-'; // If - else for this one
-//	chmod[1] = (S_IRUSR & file_stat.st_mode) ? 'r' : '-';
-//	chmod[2] = (S_IWUSR & file_stat.st_mode) ? 'w' : '-';
-//	chmod[3] = (S_IXUSR & file_stat.st_mode) ? 'x' : '-';
-//	chmod[4] = (S_IRGRP & file_stat.st_mode) ? 'r' : '-';
-//	chmod[5] = (S_IWGRP & file_stat.st_mode) ? 'w' : '-';
-//	chmod[6] = (S_IXGRP & file_stat.st_mode) ? 'x' : '-';
-//	chmod[7] = (S_IROTH & file_stat.st_mode) ? 'r' : '-';
-//	chmod[8] = (S_IWOTH & file_stat.st_mode) ? 'w' : '-';
-//	chmod[9] = (S_IXOTH & file_stat.st_mode) ? 'x' : '-';
-//	chmod[10] = '\0';
-//
-//	return (chmod);
-//}
-
-//void disp_file_info(char *path)
-//{
-//	struct stat file_stat;
-//
-//	if (stat(path, &file_stat) < 0)
-//		ft_printf("ls: %s: %s\n", path, strerror(errno));	
-//
-//
-//	ft_printf("%s ", disp_chmod(file_stat));
-//	ft_printf("%d ", (int)file_stat.st_nlink);
-//	ft_printf("%s ", getpwuid(file_stat.st_uid)->pw_name);
-//	ft_printf("%s ", getgrgid(file_stat.st_gid)->gr_name);
-//	ft_printf("%d ", (int)file_stat.st_size);
-//	//ft_printf("%s\n", strrchr(path, '/') + 1);
-//	ft_printf("%s\n", path);
-//
-//
-//	//	 Groupe: staff
-//	//	 Taille: 2142 octets
-//	//	 Date de derniere modification: Sep 17 23:42
-//
-//
-//}
