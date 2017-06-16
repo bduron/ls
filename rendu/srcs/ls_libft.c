@@ -33,7 +33,6 @@ t_timestr *ft_timestr(time_t timestamp)
 	time->second = ft_strsub(date, 17, 2);
 	time->year = ft_isdigit(date[20]) ?
 		ft_strsub(date, 20, 4) : ft_strsub(date, 24, 5);
-	ft_strdel(&date);
 	return (time);
 }
 

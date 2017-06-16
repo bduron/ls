@@ -23,11 +23,19 @@ int main(int argc, char **argv)
 	opts = parse_ls(argc, argv, &ents, &dirs);
 	
 	if (ents)  // ls_sort(&ents, opts);
+//	{
 		ls_display_flush(ents, dirs, opts);
-
+		ft_lstdel(&ents, ls_ents_free); 
+//		printf("FLUSHED\n");
+//	}
+	ents = NULL; // 
 	run_ls(&ents, &dirs, opts);
 
 	ft_lstdel(&dirs, ls_ents_free); 
+
+//	ft_printf("Dirs End: ");
+//	ft_print_lst(dirs);
+
 	return (0);
 }
 

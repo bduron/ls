@@ -66,7 +66,10 @@ int get_ents(t_data *curdir, t_list **ents, t_list **nextdirs, int opts)
 			continue ;
 		if (S_ISDIR(data.stat.st_mode) && ft_strcmp(dp->d_name, ".") 
 				&& ft_strcmp(dp->d_name, ".."))
+		{	
+			data.path = ft_strdup(data.path); // improve this 
 			ft_lstadd(nextdirs, ft_lstnew(&data, sizeof(data)));
+		}
 	}
 	ft_lstsort(nextdirs, ls_cmpname);
 	(void)closedir(dirp);
@@ -93,38 +96,47 @@ void run_ls(t_list **ents, t_list **dirs, int opts)
 {
 	t_data *data; 
 	t_list *nextdirs;
-	t_list **curdir; 
+	t_list *curdir; 
 
 	nextdirs = NULL;
-	curdir = dirs;
-	while (*curdir)
+	curdir = *dirs;
+	while (curdir)
 	{	
-		data = (*curdir)->content;
+		data = curdir->content;
 		//ft_printf("Entering %s\n", data->path); // DEBUG
 		if (get_ents(data, ents, &nextdirs, opts))
 		{
-			*curdir = (*curdir)->next;	
+			curdir = curdir->next;	
 			*ents = NULL; // DELETE free 
 			nextdirs = NULL; // OK list integré a dirs
 		   continue ;
 		}	
 
 		if (opts & FT_RECURSIVE)
-			ft_lstinsert(*curdir, nextdirs);
+		{
+			ft_printf("-------------------------\n");
+			ft_printf("[%s]\n", data->path);
+			ft_printf("Dirs before insert : ");
+			ft_print_lst(*dirs);
+			ft_lstinsert(curdir, nextdirs);
+			ft_printf("Dirs after insert : ");
+			ft_print_lst(*dirs);
+			ft_printf("\n");
+	
+		}
 
-		ls_sort(ents, opts);
+		ls_sort(ents, opts); 
 		ls_display(*ents, data->path, opts);
-		if ((*curdir)->next)
+		if (curdir->next)
    			ft_printf("\n");
 		// if last dir to visit trigger LASTDIR opt -> control last -R \n
 
-		*curdir = (*curdir)->next;	
+		curdir = curdir->next;	
 		ft_lstdel(ents, ls_ents_free); 
-		//*ents = NULL; // DELETE
+		*ents = NULL; // DELETE
 		nextdirs = NULL; // OK
 	}
-	//ft_lstdel(ents);
-
+	
 
 
 	(void)opts;

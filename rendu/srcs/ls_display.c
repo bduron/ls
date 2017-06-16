@@ -35,7 +35,6 @@ void ls_display_flush(t_list *ents, t_list *nextdirs, int opts)
 	}
 	if (nextdirs)	
    		ft_printf("\n");
-	ft_lstdel(&ents, ls_ents_free); 
 }
 
 void ls_display(t_list *ents, char *dirpath, int opts)

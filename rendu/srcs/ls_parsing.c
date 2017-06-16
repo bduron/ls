@@ -41,9 +41,8 @@ void get_files(char **argv, int opts, t_list **ents, t_list **dirs)
 			ft_lstaddback(ents, ft_lstnew(&data, sizeof(data))); 		
 		argv++;
 	}	
-
-	(void)opts;
 	(void)dirs;
+	(void)opts;
 }
 
 int get_opt(int argc, char **argv, int *opts)

@@ -19,13 +19,14 @@ void ls_ents_free(void *p, size_t size)
 	data = (t_data *)p;
 
 	if (data)
-	{
-	
-		ft_strdel(&data->path);
-		if (data->dirent)
+	{	
+		if (data->path)
+			ft_strdel(&data->path);
+		if (data->dirent)			
 			ft_memdel((void **)&data->dirent);
 		free(data);
 	}
+	
 	(void)size;
 }
 
