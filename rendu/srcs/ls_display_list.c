@@ -6,7 +6,7 @@
 /*   By: bduron <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/13 14:11:52 by bduron            #+#    #+#             */
-/*   Updated: 2017/06/14 12:50:08 by bduron           ###   ########.fr       */
+/*   Updated: 2017/06/22 18:53:48 by bduron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 #define MAX(a, b) (a > b ? a : b)
 #define MAX_LS(a, b) a = MAX(a, b)
 
-void init_fmt(t_fmt *fmt, t_list *ents, int opts)
-{	
-	struct stat stat;
-	char *name;
-	t_data *data;
+void	init_fmt(t_fmt *fmt, t_list *ents, int opts)
+{
+	struct stat	stat;
+	char		*name;
+	t_data		*data;
 
 	ft_bzero(fmt, sizeof(*fmt));
 	while (ents)
 	{
 		data = (t_data *)ents->content;
-		name = (data->dirent) ? data->dirent->d_name : data->path; 	
+		name = (data->dirent) ? data->dirent->d_name : data->path;
 		if (!(opts & FT_DOT) && *name == '.')
-		{	
+		{
 			ents = ents->next;
 			continue;
 		}
@@ -42,101 +42,64 @@ void init_fmt(t_fmt *fmt, t_list *ents, int opts)
 	}
 }
 
-void disp_chmod_sst(struct stat file_stat)
+void	print_link(t_data *data, struct stat file_stat)
 {
-	ft_putchar((S_IRUSR & file_stat.st_mode) ? 'r' : '-');	
-	ft_putchar((S_IWUSR & file_stat.st_mode) ? 'w' : '-');
-	if (file_stat.st_mode & S_ISUID)
-		ft_putchar((S_IXUSR & file_stat.st_mode) ? 's' : 'S');
-	else 
-		ft_putchar((S_IXUSR & file_stat.st_mode) ? 'x' : '-');
-	ft_putchar((S_IRGRP & file_stat.st_mode) ? 'r' : '-');
-	ft_putchar((S_IWGRP & file_stat.st_mode) ? 'w' : '-');
-	if (file_stat.st_mode & S_ISGID)
-		ft_putchar((S_IXGRP & file_stat.st_mode) ? 's' : 'S');
-	else 
-		ft_putchar((S_IXGRP & file_stat.st_mode) ? 'x' : '-');
-	ft_putchar((S_IROTH & file_stat.st_mode) ? 'r' : '-');
-	ft_putchar((S_IWOTH & file_stat.st_mode) ? 'w' : '-');
-	if (file_stat.st_mode & S_ISVTX)
-		ft_putchar((S_IXOTH & file_stat.st_mode) ? 't' : 'T');
-	else
-		ft_putchar((S_IXOTH & file_stat.st_mode) ? 'x' : '-');
-}
-
-void disp_chmod(struct stat file_stat)
-{
-	int type;
-	char c;
-
-	type = file_stat.st_mode & S_IFMT; 
-	c = (type == S_IFBLK) ? 'b' : '-';
-	c = (type == S_IFCHR) ? 'c' : c;
-	c = (type == S_IFDIR) ? 'd' : c;
-	c = (type == S_IFIFO) ? 'p' : c;
-	c = (type == S_IFLNK) ? 'l' : c;
-	c = (type == S_IFSOCK) ? 's' : c;
-	ft_putchar(c);	
-	disp_chmod_sst(file_stat);	
-}
-
-void print_link(t_data *data, struct stat file_stat)
-{
-	char buf[1024];
-	ssize_t len;
+	char	buf[1024];
+	ssize_t	len;
 
 	if (!((file_stat.st_mode & S_IFMT) == S_IFLNK))
-	   ft_printf("\n");	
-	if ((file_stat.st_mode & S_IFMT) == S_IFLNK) 
+		ft_printf("\n");
+	if ((file_stat.st_mode & S_IFMT) == S_IFLNK)
 	{
-		if ((len = readlink(data->path, buf, sizeof(buf)-1)) != -1)
-    		buf[len] = '\0';
+		if ((len = readlink(data->path, buf, sizeof(buf) - 1)) != -1)
+			buf[len] = '\0';
 		ft_printf(" -> %s\n", buf);
 	}
 }
 
-void print_date(struct stat file_stat)
+void	print_date(struct stat file_stat)
 {
 	t_timestr *time;
 
 	time = ft_timestr(file_stat.st_mtime);
 	if (ft_time_isrecent(file_stat.st_mtime))
-		ft_printf("%s %s %s:%s ", time->month, time->day, time->hour, time->minute);
-	else 
+		ft_printf("%s %s %s:%s ", time->month,
+				time->day, time->hour, time->minute);
+	else
 		ft_printf("%s %s %5s ", time->month, time->day, time->year);
 	ft_timestr_del(time);
 }
 
-void print_size(t_fmt fmt, struct stat file_stat)
+void	print_size(t_fmt fmt, struct stat file_stat)
 {
 	unsigned int min;
 	unsigned int maj;
 
-	if (S_ISCHR(file_stat.st_mode) || S_ISBLK(file_stat.st_mode)) 
+	if (S_ISCHR(file_stat.st_mode) || S_ISBLK(file_stat.st_mode))
 	{
-		 min = minor(file_stat.st_rdev);
-		 maj = major(file_stat.st_rdev);
-		 ft_printf("%3d, %3d ", maj, min);
+		min = minor(file_stat.st_rdev);
+		maj = major(file_stat.st_rdev);
+		ft_printf("%3d, %3d ", maj, min);
 	}
-	else 
+	else
 		ft_printf("%*ld ", fmt.size, (long)file_stat.st_size);
 }
 
-void ls_display_list(t_data *data, t_fmt fmt)
+void	ls_display_list(t_data *data, t_fmt fmt)
 {
 	struct stat file_stat;
 
 	if (lstat(data->path, &file_stat) < 0)
 	{
-		ft_printf("ls: %s: %s\n", data->path, strerror(errno));	
-		return ;			
+		ft_printf("ls: %s: %s\n", data->path, strerror(errno));
+		return ;
 	}
-	disp_chmod(file_stat);
+	disp_mode(file_stat);
 	ft_printf("%*d ", fmt.link + 1, (int)file_stat.st_nlink);
 	ft_printf("%-*s  ", fmt.uid, getpwuid(file_stat.st_uid)->pw_name);
 	ft_printf("%-*s  ", fmt.gid, getgrgid(file_stat.st_gid)->gr_name);
 	print_size(fmt, file_stat);
 	print_date(file_stat);
-	ft_printf("%s", (data->dirent ? data->dirent->d_name : data->path)); 
+	ft_printf("%s", (data->dirent ? data->dirent->d_name : data->path));
 	print_link(data, file_stat);
 }
