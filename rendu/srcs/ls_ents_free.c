@@ -35,9 +35,3 @@ void ls_dirs_free(void *p, size_t size)
 	free(p);
 	(void)size;
 }
-
-//void ls_fmt_free(t_fmt *fmt)
-//{
-//
-//
-//}

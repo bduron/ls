@@ -75,7 +75,6 @@ int get_opt(int argc, char **argv, int *opts)
 		}	
 		i++;
 	}
-	
 	return (i);
 }	
 
@@ -87,19 +86,13 @@ int parse_ls(int argc, char **argv, t_list **ents, t_list **dirs)
 	opts = 0;
 	nb_opts = get_opt(argc, argv, &opts);
 	qsort(argv + nb_opts, argc - nb_opts, sizeof(char *), cmp_av); //FT_QSORT
-				
 	if (argc - nb_opts > 1)
 		opts |= FT_DIRNAME;
-
 	if (argc - nb_opts == 0)
 		get_files((char *[2]){".", NULL}, opts, ents, dirs);
 	else 
 		get_files(argv + nb_opts, opts, ents, dirs);		
-	
 //	ft_print_lst(*ents);
 //	ft_print_lst(*dirs);
-
-	(void)ents;
-	(void)dirs;
 	return (opts); 
 }

@@ -22,21 +22,17 @@ int main(int argc, char **argv)
 	dirs = NULL;
 	opts = parse_ls(argc, argv, &ents, &dirs);
 
-	if (ents)  // ls_sort(&ents, opts);
+	if (ents) 
 	{
 		ls_display_flush(ents, dirs, opts);
 		ft_lstdel(&ents, ls_ents_free); 
-//		printf("FLUSHED\n");
 	}
-	ents = NULL; // 
+	ents = NULL;
 	if (opts & FT_REVERSE)
 		ft_list_reverse(&dirs);
 	run_ls(&ents, &dirs, opts);
 
 	ft_lstdel(&dirs, ls_dirs_free); 
-
-//	ft_printf("Dirs End: ");
-//	ft_print_lst(dirs);
 
 	return (0);
 }

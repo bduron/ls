@@ -12,20 +12,6 @@
 
 #include "ls.h"
 
-//while (dirs != NULL) 
-//	pop currentdir from dirs 
-//	get currentdir entries: ents [file, file, dir, file, ...]
-//	if -R		
-//		+ get nextdirs from currentdir: nextdirs [dir, dir, dir, ...]				
-//		sort nextdirs
-//		dirs = merge nextdirs + dirs 	
-//	compute ents (sort, ...) 
-//	display ents 
-//	deletes ents 		
-//	go to the next dir in dirs 
-
-
-
 char *construct_path(const char *parent, const char *path)
 {
 	char *tmp;
@@ -42,10 +28,14 @@ int get_ents(char *curdir, t_list **ents, t_list **nextdirs, int opts)
 	DIR				*dirp;
 	struct dirent	*dp;
 	t_data			data;
+	char			*errname;
 
 	if ((dirp = opendir(curdir)) == NULL)
-	{
-		ft_printf("%s:\nls: %s: %s\n\n", curdir, ft_strrchr(curdir, '/') + 1, strerror(errno));	
+	{ 
+		if ((errname = ft_strrchr(curdir, '/')))
+			ft_printf("%s:\nls: %s: %s\n\n", curdir, errname + 1, strerror(errno));	
+		else 
+			ft_printf("%s:\nls: %s: %s\n\n", curdir, curdir, strerror(errno));	
 		return (1);
 	}
 
@@ -57,8 +47,7 @@ int get_ents(char *curdir, t_list **ents, t_list **nextdirs, int opts)
 			ft_printf("ls: %s: %s\n", dp->d_name, strerror(errno));	
 			free(data.path);
 			continue ;
-			//return (1) ;			
-		}	// protect
+		}
 		data.dirent = malloc(sizeof(*dp) + 1);
 		ft_memcpy(data.dirent, dp, sizeof(*dp));
 		
@@ -90,7 +79,7 @@ void ls_sort(t_list **ents, int opts)
 	sort_func = &ls_cmpname;
 	
 	if (opts & FT_TSORT)	
-		sort_func = &ls_cmpmtime; // CODE cmptime
+		sort_func = &ls_cmpmtime; 
 
 	ft_lstsort(ents, sort_func);
 
